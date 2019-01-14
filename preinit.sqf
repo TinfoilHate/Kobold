@@ -26,3 +26,4 @@ FNC_Briefing = compile preprocessFileLineNumbers "customization\briefing.sqf";
 FNC_Menu = compile preprocessFileLineNumbers "core\menu.sqf";
 
 #include "modules\modules.sqf" //DO NOT REMOVE
+#include "customization\preinit.sqf" //DO NOT REMOVE
