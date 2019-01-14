@@ -70,6 +70,51 @@
 	};
 	["FW_GAS_FIREMISSION", FNC_GAS_FIREMISSION] call CBA_fnc_addEventHandler;
 
+	FNC_GAS_MIXEDMISSION = {	//Example, to be run only once, SERVER ONLY: ["FW_GAS_MIXEDMISSION",[position player,50,3,1,5,300]] call CBA_fnc_serverEvent;
+		_this spawn {
+			params ["_target","_dispersion","_shotFreq","_shotRounds","_shotArea","_timeOut"];
+
+			if (isNil "_timeOut") then {_timeOut = -1};
+			_timeOutStart = _timeOut;
+
+			_shotCount = 0;
+			while {_shotCount < _shotRounds} do {
+				if (_timeOut != -1) then {_timeOut = time + _timeOutStart};
+
+				_shotPos = [[[_target,_dispersion]],[]] call BIS_fnc_randomPos;
+
+				//_gasLogic = "Sign_Sphere100cm_F" createVehicle _shotPos;
+				_gasLogic = "Land_HelipadEmpty_F" createVehicle _shotPos;
+				_gasLogic setPosATL _shotPos;
+
+				_sound = selectRandom ["mortar1","mortar2"];
+				[_gasLogic, [_sound,500]] remoteExec ["say3D"];
+
+				sleep 2;				
+				
+				if (random 1 > 0.4) then {
+					"rhs_rpg7v2_pg7vl" createVehicle _shotPos;
+
+					_gasLogic setVariable ["FW_GAS_SHOTAREA",_shotArea,true];
+					_gasLogic setVariable ["FW_GAS_TIMEOUT",_timeOut,true];
+
+					FW_GAS_GASLOGICS set [count FW_GAS_GASLOGICS,_gasLogic];
+
+					["FW_GAS_GASZONES",_gasLogic] spawn CBA_fnc_globalEvent;
+					["FW_GAS_GASPARTICLES",_shotPos] spawn CBA_fnc_globalEvent;
+				} else {
+					_mortarStrike = "UO_Sh_60mm" createVehicle [_shotPos select 0,_shotPos select 1,450];
+					_mortarStrike setVelocity [0, 0, -225];
+				};
+
+				_shotCount = _shotCount + 1;
+
+				sleep _shotFreq;
+			};
+		};
+	};
+	["FW_GAS_MIXEDMISSION", FNC_GAS_MIXEDMISSION] call CBA_fnc_addEventHandler;
+
 	FNC_GAS_FAKEMISSION = {	//Example, to be run only once, SERVER ONLY: ["FW_GAS_FAKEMISSION",[position player,50,3,1,5,300]] call CBA_fnc_serverEvent;
 		_this spawn {
 			params ["_target","_dispersion","_shotFreq","_shotRounds","_shotArea","_timeOut"];
@@ -127,7 +172,7 @@
 			params ["_gasLogic"];
 
 			_shotPos = getPosATL _gasLogic;
-			_gasTrig = objNull;
+			_gasMark = objNull;
 
 			waitUntil {_test = _gasLogic getVariable "FW_GAS_SHOTAREA"; !isNil "_test";};
 			waitUntil {_test = _gasLogic getVariable "FW_GAS_TIMEOUT"; !isNil "_test";};
@@ -136,19 +181,21 @@
 			_timeOut = _gasLogic getVariable "FW_GAS_TIMEOUT";
 
 			if (_timeOut == -1 || _timeOut > time) then {
-				_gasTrig = createTrigger ["EmptyDetector",_shotPos,false];
-				_gasTrig setTriggerArea [_shotArea,_shotArea,0,false,_shotArea];
-				_gasTrig setTriggerActivation ["ANYPLAYER","PRESENT",true];
-				_gasTrig setTriggerStatements ["player in thisList || (vehicle player) in thisList","FW_GAS_AREALIST set [count FW_GAS_AREALIST,thisTrigger];","FW_GAS_AREALIST = FW_GAS_AREALIST - [thisTrigger];"];
+				_gasName = str(random 1000000);
+				_gasMark = createMarkerLocal [_gasName,_shotPos];
+				_gasMark setMarkerShapeLocal "ELLIPSE";
+				_gasMark setMarkerSizeLocal [_shotArea,_shotArea];
+				_gasMark setMarkerAlphaLocal 0;
+				FW_GAS_AREALIST pushBackUnique _gasMark;
 			};
 
 			if (_timeOut != -1 && _timeOut > time) then {
 				[{
-					(_this select 1) <= time
+					(_this # 1) <= time
 				}, {
-					FW_GAS_AREALIST = FW_GAS_AREALIST - [(_this select 0)];
-					deleteVehicle (_this select 0);
-				}, [_gasTrig,_timeOut]] call CBA_fnc_waitUntilAndExecute;
+					FW_GAS_AREALIST = FW_GAS_AREALIST - [(_this # 0)];
+					deleteMarkerLocal (_this # 0);
+				}, [_gasMark,_timeOut]] call CBA_fnc_waitUntilAndExecute;
 			};
 		};
 	};
@@ -174,7 +221,7 @@
 
 		sleep 0.5 + (random 5);
 
-		_veh = _this select 0;
+		_veh = _this # 0;
 		_veh setVariable ["FW_GAS_VEHALARM_ON",true,true];
 
 		while {alive _veh} do {

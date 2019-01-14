@@ -1,0 +1,50 @@
+#include "defs.hpp"
+
+{
+	_x params ["_name","_ready","_ammo","_guns","_disp","_reloadTime","_calcTime","_flightTime","_delayTime","_side"];
+
+	if (_name == lbText [POFM_DIA_IDC_GUNSELECT, lbCurSel POFM_DIA_IDC_GUNSELECT]) then {
+		if (_ready) then {
+			_selectedAmmo = lbCurSel POFM_DIA_IDC_SHELLSELECT;
+			_selectedGrid = ctrlText POFM_DIA_IDC_GRID;
+			_selectedMils = (ctrlText POFM_DIA_IDC_MILS) call BIS_fnc_parseNumber;
+			_selectedDist = (ctrlText POFM_DIA_IDC_DISTANCE) call BIS_fnc_parseNumber;
+			_selectedRnds = (ctrlText POFM_DIA_IDC_BURSTROUNDS) call BIS_fnc_parseNumber;
+			_selectedGuns = (lbText [POFM_DIA_IDC_NUMGUNSELECT, lbCurSel POFM_DIA_IDC_NUMGUNSELECT]) call BIS_fnc_parseNumber;
+
+			_inputIsCorrect = true;
+
+			_newAmmo = [];
+			_newAmmoClass = "";
+			_firedRounds = 0;
+			{
+				_x params ["_class","_qty"];
+
+				if (_forEachIndex == _selectedAmmo) then {
+					if (_qty - _selectedRnds > 0) then {
+						_newRounds = _qty - _selectedRnds;
+						_firedRounds = _selectedRnds;
+
+						_newAmmo pushBack [_class,_newRounds];
+					} else {
+						_newRounds = 0;
+						_firedRounds = _qty;
+					};
+
+					_newAmmoClass = _class;
+				} else {
+					_newAmmo pushBack [_class,_qty];
+				};
+			} forEach _ammo;
+
+			if(_inputIsCorrect) then {
+				tin_var_artyBatteries set [_forEachIndex,[_name,false,_newAmmo,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side]];
+				["tin_var_artyBatteries",tin_var_artyBatteries] call tin_fnc_publicVariable;
+
+				["tin_evt_callPolarFiremission", [player,_name,_newAmmoClass,_selectedGrid,_selectedMils,_selectedDist,_firedRounds,_selectedGuns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side]] call CBA_fnc_serverEvent;
+
+				[] call tin_fnc_dia_polarFiremissionCloseDialog;
+			};
+		};
+	};
+} forEach tin_var_artyBatteries;

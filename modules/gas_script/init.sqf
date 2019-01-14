@@ -6,7 +6,7 @@
 	if (!isDedicated && hasInterface) then {
 		[{!isNull player}, {
 			FW_GAS_DOWN = false;
-		
+
 			//Monitor gas mask usage for stamina purposes
 			[] spawn {
 				sleep 1;
@@ -16,10 +16,10 @@
 					if (goggles player in FW_GAS_MASKLIST && !_maskOn) then {
 						_maskOn = true;
 
-						ace_advanced_fatigue_loadFactor				= 0.9;
-						ace_advanced_fatigue_recoveryFactor			= 0.6;
-						ace_advanced_fatigue_performanceFactor		= 0.6;
-						ace_advanced_fatigue_terrainGradientFactor	= 0.8;
+						ace_advanced_fatigue_loadFactor				= 1.0;
+						ace_advanced_fatigue_recoveryFactor			= 0.4;
+						ace_advanced_fatigue_performanceFactor		= 0.4;
+						ace_advanced_fatigue_terrainGradientFactor	= 0.4;
 					};
 
 					if (!(goggles player in FW_GAS_MASKLIST) && _maskOn) then {
@@ -36,23 +36,56 @@
 			};
 
 			//Vehicle alarm action
+			_vehAlarm_toggle_menu_out = ["FW_GAS_VEHALARM_MENU_OUT", "CBRN Alarm Control", "", {
+
+			}, {
+				!isNil {_target getVariable "FW_GAS_VEHALARM_ON"} && unitIsUAV _target
+			}] call ace_interact_menu_fnc_createAction;
+			["LandVehicle", 0, ["ACE_MainActions"], _vehAlarm_toggle_menu_out, true] call ace_interact_menu_fnc_addActionToClass;
+
+			_vehAlarm_toggle_off_out = ["vehAlarm_off_class", "Turn CBRN Alarm Off", "", {
+				params ["_target", "_player"];
+
+				_target setVariable ["FW_GAS_VEHALARM_ON",false,true];
+			}, {
+				([_player, _target, []] call ace_common_fnc_canInteractWith) && _target getVariable "FW_GAS_VEHALARM_ON"
+			}] call ace_interact_menu_fnc_createAction;
+			["LandVehicle", 0, ["ACE_MainActions","FW_GAS_VEHALARM_MENU_OUT"], _vehAlarm_toggle_off_out, true] call ace_interact_menu_fnc_addActionToClass;
+
+			_vehAlarm_toggle_on_out = ["vehAlarm_on_class", "Turn CBRN Alarm On", "", {
+				params ["_target", "_player"];
+
+				_target setVariable ["FW_GAS_VEHALARM_ON",true,true];
+			}, {
+				([_player, _target, []] call ace_common_fnc_canInteractWith) && !(_target getVariable "FW_GAS_VEHALARM_ON")
+			}] call ace_interact_menu_fnc_createAction;
+			["LandVehicle", 0, ["ACE_MainActions","FW_GAS_VEHALARM_MENU_OUT"], _vehAlarm_toggle_on_out, true] call ace_interact_menu_fnc_addActionToClass;
+
+
+			_vehAlarm_toggle_menu = ["FW_GAS_VEHALARM_MENU", "CBRN Alarm Control", "", {
+
+			}, {
+				!isNil {_target getVariable "FW_GAS_VEHALARM_ON"} && (commander _target == _player || gunner _target == _player || driver _target == _player || unitIsUAV _target)
+			}] call ace_interact_menu_fnc_createAction;
+			["LandVehicle", 1, ["ACE_SelfActions"], _vehAlarm_toggle_menu, true] call ace_interact_menu_fnc_addActionToClass;
+
 			_vehAlarm_toggle_off = ["vehAlarm_off_class", "Turn CBRN Alarm Off", "", {
 				params ["_target", "_player"];
 
 				_target setVariable ["FW_GAS_VEHALARM_ON",false,true];
 			}, {
-				([_player, _target, []] call ace_common_fnc_canInteractWith) && (commander _target == _player || gunner _target == _player || driver _target == _player) && _target getVariable "FW_GAS_VEHALARM_ON"
+				([_player, _target, []] call ace_common_fnc_canInteractWith) && _target getVariable "FW_GAS_VEHALARM_ON"
 			}] call ace_interact_menu_fnc_createAction;
-			["LandVehicle", 1, ["ACE_SelfActions"], _vehAlarm_toggle_off, true] call ace_interact_menu_fnc_addActionToClass;
+			["LandVehicle", 1, ["ACE_SelfActions","FW_GAS_VEHALARM_MENU"], _vehAlarm_toggle_off, true] call ace_interact_menu_fnc_addActionToClass;
 
 			_vehAlarm_toggle_on = ["vehAlarm_on_class", "Turn CBRN Alarm On", "", {
 				params ["_target", "_player"];
 
 				_target setVariable ["FW_GAS_VEHALARM_ON",true,true];
 			}, {
-				([_player, _target, []] call ace_common_fnc_canInteractWith) && (commander _target == _player || gunner _target == _player || driver _target == _player) && !(_target getVariable "FW_GAS_VEHALARM_ON")
+				([_player, _target, []] call ace_common_fnc_canInteractWith) && !(_target getVariable "FW_GAS_VEHALARM_ON")
 			}] call ace_interact_menu_fnc_createAction;
-			["LandVehicle", 1, ["ACE_SelfActions"], _vehAlarm_toggle_on, true] call ace_interact_menu_fnc_addActionToClass;
+			["LandVehicle", 1, ["ACE_SelfActions","FW_GAS_VEHALARM_MENU"], _vehAlarm_toggle_on, true] call ace_interact_menu_fnc_addActionToClass;
 
 			//Various user actions for mask usage
 			_maskUpSelf = ["maskUpSelf_class", "Put Gasmask On Self", "", {
@@ -93,7 +126,7 @@
 				["FW_GAS_JIPSEND"] spawn CBA_fnc_serverEvent;
 			};
 		}, []] call CBA_fnc_waitUntilAndExecute;
-		
+
 		[] spawn {
 			while {!(player getVariable ["FW_Dead", false])} do {
 				if (goggles player in FW_GAS_MASKLIST) then {
@@ -114,7 +147,13 @@
 					};
 				};
 
-				if (count FW_GAS_AREALIST > 0) then {FW_GAS_INHOTAREA = true} else {FW_GAS_INHOTAREA = false};
+				_toggle = false;
+				{
+					if (player inArea _x) then {
+						_toggle = true
+					};
+				} forEach FW_GAS_AREALIST;
+				if (_toggle) then {FW_GAS_INHOTAREA = true} else {FW_GAS_INHOTAREA = false};
 
 				if FW_GAS_ACTIVE then {
 					if (FW_GAS_INTENSITY >= 2 && FW_GAS_INHOTAREA && !FW_GAS_HASMASK) then {
@@ -222,6 +261,6 @@
 			};
 
 			FW_GAS_INTENSITY = 0;
-			FW_GAS_BLUR ppEffectEnable false;			
+			FW_GAS_BLUR ppEffectEnable false;
 		};
 	};

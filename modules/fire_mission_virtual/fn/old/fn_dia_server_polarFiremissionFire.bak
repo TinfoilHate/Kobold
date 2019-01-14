@@ -1,0 +1,240 @@
+_this spawn {
+	params ["_obs","_bat","_selectedAmmo","_selectedGrid","_selectedMils","_selectedDist","_selectedRnds","_guns","_disp","_reloadTime","_calcTime","_flightTime","_delayTime","_side"];
+
+	_id = "";
+	_trackNew = [_obs,_bat,_selectedAmmo,_selectedGrid,_selectedMils,_selectedDist,_selectedRnds,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side];
+	_fncTrackArray = {
+		_count = _count + 1;
+
+		if (_count > 9) then {
+			_id = "AF00" + str(_count);
+		} else {
+			_id = "AF000" + str(_count);
+		};
+		_trackNew = [_id,false,_trackNew];
+	};
+
+	_count = -1;
+	switch (_side) do {
+		case west: {
+			_count = count tin_var_fireMissions_west;
+
+			call _fncTrackArray;
+
+			tin_var_fireMissions_west pushBack _trackNew;
+			["tin_var_fireMissions_west",tin_var_fireMissions_west] call tin_fnc_publicVariable;
+		};
+		case east: {
+			_count = count tin_var_fireMissions_east;
+
+			call _fncTrackArray;
+
+			tin_var_fireMissions_east pushBack _trackNew;
+			["tin_var_fireMissions_east",tin_var_fireMissions_east] call tin_fnc_publicVariable;
+		};
+		case independent: {
+			_count = count tin_var_fireMissions_independent;
+
+			call _fncTrackArray;
+
+			tin_var_fireMissions_independent pushBack _trackNew;
+			["tin_var_fireMissions_independent",tin_var_fireMissions_independent] call tin_fnc_publicVariable;
+		};
+		case civilian: {
+			_count = count tin_var_fireMissions_civilian;
+
+			call _fncTrackArray;
+
+			tin_var_fireMissions_civilian pushBack _trackNew;
+			["tin_var_fireMissions_civilian",tin_var_fireMissions_civilian] call tin_fnc_publicVariable;
+		};
+	};
+
+	private _target = [_selectedGrid,_selectedMils,_selectedDist] call tin_fnc_grid_mapGridToPos;
+
+	["tin_evt_menu_addMission", _trackNew] call CBA_fnc_globalEvent;
+	["tin_evt_grid_addMarkers", [_id,false,[_obs,_bat,_selectedAmmo,_target,_selectedMils,_selectedDist,_selectedRnds,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side]]] call CBA_fnc_globalEvent;
+
+	_obsName = "";
+	{
+		_x params ["_var","_name","_side"];
+
+		if (_obs == _var) then {
+			_obsName = _name
+		};
+	} forEach tin_var_artyObservers;
+
+	if (_obsName == "") then {
+		_obsName = toUpper(groupId (group _obs));
+	};
+
+	if (_calcTime isEqualType []) then {
+		_calcTime = (_calcTime # 0 + (random ((_calcTime # 1) - (_calcTime # 0)) ));
+	};
+
+	_fireTime = (_selectedRnds * _reloadTime);
+
+	_splash = 0;
+	if (_fireTime > _flightTime) then {
+		_splash = ((_fireTime - _flightTime) - 10);
+	} else {
+		if (_flightTime >= _fireTime) then {
+			_splash = ((_flightTime - _fireTime) - 10);
+		};
+	};
+
+	if (_splash < 3) then {_splash = 3};
+
+	_msg1 	= _obsName + ": " + _bat + " THIS IS " + _obsName + ", FIRE FOR EFFECT, POLAR, OVER.";
+	_msg2	= _bat + ": " + "THIS IS " + _bat + ", FIRE FOR EFFECT, POLAR, OUT.";
+	_msg3	= _obsName + ": " + "LOCATION " + _selectedGrid + ", DIRECTION " + str(_selectedMils) + ", DISTANCE " + str(_selectedDist) + ", OVER.";
+	_msg4	= _bat + ": " + "LOCATION " + _selectedGrid + ", DIRECTION " + str(_selectedMils) + ", DISTANCE " + str(_selectedDist) + ", OUT.";
+	_msg5	= _bat + ": " + _obsName + ", " + str(_selectedRnds) + " ROUNDS, TARGET " + _id + ", OVER.";
+	_msg6	= _obsName + ": " + _bat + ", " + str(_selectedRnds) + " ROUNDS, TARGET " + _id + ", OUT.";
+	_msg7	= _bat + ": " + _obsName + ", SHOT, OVER";
+	_msg8	= _obsName + ": " + _bat + ", SHOT, OUT";
+	_msg9	= _bat + ": " + _obsName + ", SPLASH, OVER";
+	_msg10	= _obsName + ": " + _bat + ", SPLASH, OUT";
+	_msg11	= _bat + ": " + _obsName + ", ROUNDS COMPLETE, OVER";
+	_msg12	= _obsName + ": " + _bat + ", ROUNDS COMPLETE, OUT";
+	_msg13	= _obsName + ": " + _bat + ", " + _id + " CHECK FIRING, OVER";
+	_msg14	= _bat + ": " + _obsName + ", " + _id + " CHECK FIRING, OUT";
+
+	["tin_evt_fireMessage",	//Call for fire
+		[
+			[1,_msg1,_side],
+			[1,_msg2,_side],
+			[1,_msg3,_side],
+			[1,_msg4,_side],
+			[1,_msg5,_side],
+			[1,_msg6,_side]
+		]
+	] call CBA_fnc_globalEvent;
+
+	sleep _calcTime;
+
+	_cancelMission = false;	//Check for cancellation
+	switch (_side) do {
+		case west: {_cancelMission = tin_var_fireMissions_west # (_count - 1) # 1};
+		case east: {_cancelMission = tin_var_fireMissions_east # (_count - 1) # 1};
+		case independent: {_cancelMission = tin_var_fireMissions_independent # (_count - 1) # 1};
+		case civilian: {_cancelMission = tin_var_fireMissions_civilian # (_count - 1) # 1};
+	};
+
+	if (_cancelMission) exitWith {
+		["tin_evt_fireMessage",	//Cancelled
+			[
+				[1,_msg13,_side],
+				[1,_msg14,_side]
+			]
+		] call CBA_fnc_globalEvent;
+
+		sleep 2;
+	};
+
+	["tin_evt_fireMessage",	//Shot
+		[
+			[1,_msg7,_side],
+			[1,_msg8,_side]
+		]
+	] call CBA_fnc_globalEvent;
+
+	[_fireTime,_splash,_side,_msg9,_msg10,_bat] spawn {	//Separating out splash notifications from here
+		params ["_fireTime","_splash","_side","_msg9","_msg10","_bat"];
+
+		sleep _fireTime;
+
+		{
+			_x params ["_name","_ready","_ammo","_guns","_disp","_reloadTime","_calcTime","_flightTime","_delayTime","_side"];
+
+			if (_bat == _name) then {
+				tin_var_artyBatteries set [_forEachIndex,[_name,true,_ammo,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side]];
+				["tin_var_artyBatteries",tin_var_artyBatteries] call tin_fnc_publicVariable;
+			} else {
+				tin_var_artyBatteries set [_forEachIndex,[_name,_ready,_ammo,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side]];
+				["tin_var_artyBatteries",tin_var_artyBatteries] call tin_fnc_publicVariable;
+			};
+		} forEach tin_var_artyBatteries;
+
+		sleep _splash;
+
+		["tin_evt_fireMessage",	//Splash
+			[
+				[1,_msg9,_side],
+				[1,_msg10,_side]
+			]
+		] call CBA_fnc_globalEvent;
+
+		sleep 8;
+	};
+
+	_roundsFired = 0;
+
+	for "_i" from 1 to _selectedRnds do {
+		_cancelMission = false;
+		switch (_side) do {
+			case west: {_cancelMission = tin_var_fireMissions_west # (_count - 1) # 1};
+			case east: {_cancelMission = tin_var_fireMissions_east # (_count - 1) # 1};
+			case independent: {_cancelMission = tin_var_fireMissions_independent # (_count - 1) # 1};
+			case civilian: {_cancelMission = tin_var_fireMissions_civilian # (_count - 1) # 1};
+		};
+
+		if (_cancelMission) exitWith {
+			["tin_evt_fireMessage",	//Cancelled
+				[
+					[1,_msg13,_side],
+					[1,_msg14,_side]
+				]
+			] call CBA_fnc_globalEvent;
+
+			sleep 2;
+		};
+
+		_roundsFired = _roundsFired + 1;
+
+		sleep _reloadTime;
+	};
+
+	["tin_evt_fireMessage",	//Rounds complete
+		[
+			[1,_msg11,_side],
+			[1,_msg12,_side]
+		]
+	] call CBA_fnc_globalEvent;
+
+	sleep (_splash + 8);
+
+	[_obs,_bat,_selectedAmmo,_target,_selectedMils,_selectedDist,_roundsFired,_guns,_disp,_reloadTime,_calcTime,_flightTime,_delayTime,_side] spawn {
+		params ["_obs","_bat","_selectedAmmo","_selectedTarget","_selectedMils","_selectedDist","_selectedRnds","_guns","_disp","_reloadTime","_calcTime","_flightTime","_delayTime","_side"];
+
+		_ammoClass = getText (configFile >> "CfgMagazines" >> _selectedAmmo >> "ammo");
+
+		_rounds = 0;
+		while {_rounds < _selectedRnds} do {
+			for "_i" from 1 to _guns do {
+				_fireTarget = [_selectedTarget, _disp] call CBA_fnc_randPos;
+
+				_newDelayTime = 0;
+				if (_delayTime isEqualType []) then {
+					_newDelayTime = (_delayTime # 0 + (random ((_delayTime # 1) - (_delayTime # 0)) ));
+				};
+				sleep _newDelayTime;
+
+				_mortarStrike = _ammoClass createVehicle [_fireTarget # 0,_fireTarget # 1,450];
+				_mortarStrike setVelocity [0, 0, -225];
+
+				/*
+				_mortarLogic = "Land_HelipadEmpty_F" createVehicle _strikeLocation;
+				_mortarLogic setPosATL _strikeLocation;
+
+				_sound = selectRandom ["mortar1","mortar2"];
+				[_mortarLogic, [_sound,500]] remoteExec ["say3D"];
+				*/
+			};
+
+			_rounds = _rounds + 1;
+
+			sleep _reloadTime;
+		};
+	};
+};

@@ -3,17 +3,33 @@
 ////////////////////////////////////////////////////////
 
 #include "defs.hpp"
-class DIA_POLARFIREMISSION
-{
+class DIA_POLARFIREMISSION {
 	idd = POFM_DIA_IDD_DISPLAY;
 	movingEnable = false;
 	enableSimulation = true;
-	 scriptName = "Dialog_PolarFiremission";
+	scriptName = "Dialog_PolarFiremission";
 	controlsBackground[] = {};
 	objects[] = {};
-	controls[] = {POFM_BACKGROUND,POFM_DESCRIPTIONTEXT,POFM_SELECTEDGUNTEXT,POFM_SELECTEDSHELLTEXT,POFM_GRIDTEXT,POFM_MILSTEXT,POFM_DISTANCETEXT,POFM_DISPERSIONTEXT,POFM_BURSTNUMBERTEXT,POFM_BURSTROUNDSTEXT,
-		POFM_DELAYTEXT,POFM_SPOTDISTTEXT,POFM_SELECTEDGUNEDIT,POFM_SELECTEDSHELLEDIT,POFM_GRIDEDIT,POFM_MILSEDIT,POFM_DISTANCEEDIT,POFM_DISPERSIONEDIT,POFM_BURSTNUMBEREDIT,POFM_BURSTROUNDSEDIT,
-		POFM_BURSTDELAYEDIT,POFM_SPOTTINGDISTANCEDIT,POFM_FIREBUTTON,POFM_CANCELBUTTON};
+	controls[] = {
+			POFM_BACKGROUND,
+			POFM_DESCRIPTIONTEXT,
+			POFM_SELECTEDGUNTEXT,
+			POFM_SELECTEDSHELLTEXT,
+			POFM_GRIDTEXT,
+			POFM_MILSTEXT,
+			POFM_DISTANCETEXT,
+			POFM_BURSTROUNDSTEXT,
+			POFM_SELECTEDGUNEDIT,
+			POFM_SELECTEDSHELLEDIT,
+			POFM_GRIDEDIT,
+			POFM_MILSEDIT,
+			POFM_DISTANCEEDIT,
+			POFM_BURSTROUNDSEDIT,
+			POFM_FIREBUTTON,
+			POFM_CANCELBUTTON,
+			POFM_NUMGUNSTEXT,
+			POFM_NUMGUNEDIT
+		};
 		class POFM_BACKGROUND: RscText
 		{
 			idc = -1;
@@ -27,7 +43,7 @@ class DIA_POLARFIREMISSION
 		class POFM_DESCRIPTIONTEXT: RscText
 		{
 			idc = -1;
-			text = "Polar Firemission"; //--- ToDo: Localize;
+			text = "POLAR MISSION"; //--- ToDo: Localize;
 
 			x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 			y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 0) * safezoneH + safezoneY;
@@ -35,13 +51,13 @@ class DIA_POLARFIREMISSION
 			h = ARTILAYOUTHEIGHT * safezoneH;
 			colorText[] = {0,0,0,1};
 
-	shadow = 0;
+			shadow = 0;
 
 		};
 	class POFM_SELECTEDGUNTEXT: RscText
 	{
 		idc = -1;
-		text = "Selected gun:"; //--- ToDo: Localize;
+		text = "BATTERY:"; //--- ToDo: Localize;
 
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 1) * safezoneH + safezoneY;
@@ -50,127 +66,96 @@ class DIA_POLARFIREMISSION
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 
 	};
 	class POFM_SELECTEDSHELLTEXT: RscText
 	{
 		idc = -1;
-		text = "Aviable ammunition:"; //--- ToDo: Localize;
-		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 2) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
-
-		shadow = 0;
-	};
-	class POFM_GRIDTEXT: RscText
-	{
-		idc = -1;
-		text = "Caller Grid:"; //--- ToDo: Localize;
+		text = "AMMO TYPE:"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 3) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_MILSTEXT: RscText
-	{
-		idc = -1;
-		text = "Mils:"; //--- ToDo: Localize;
-		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 4) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
 
-	shadow = 0;
-	};
-	class POFM_DISTANCETEXT: RscText
+	class POFM_NUMGUNSTEXT: RscText
 	{
 		idc = -1;
-		text = "Distance:"; //--- ToDo: Localize;
+		text = "GUNS:"; //--- ToDo: Localize;
+
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 5) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
+
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
-	};
-	class POFM_DISPERSIONTEXT: RscText
-	{
-		idc = -1;
-		text = "Dispersion:"; //--- ToDo: Localize;
-		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 6) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
+		shadow = 0;
 
-	shadow = 0;
 	};
-	class POFM_BURSTNUMBERTEXT: RscText
+
+	class POFM_GRIDTEXT: RscText
 	{
 		idc = -1;
-		text = "Number of bursts:"; //--- ToDo: Localize;
+		text = "GRID:"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 7) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_BURSTROUNDSTEXT: RscText
+	class POFM_MILSTEXT: RscText
 	{
 		idc = -1;
-		text = "Number of rounds per burst:"; //--- ToDo: Localize;
+		text = "DIRECTION (MILS):"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 8) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_DELAYTEXT: RscText
+	class POFM_DISTANCETEXT: RscText
 	{
 		idc = -1;
-		text = "Delay between bursts:"; //--- ToDo: Localize;
+		text = "DISTANCE (M):"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 9) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_SPOTDISTTEXT: RscText
+	class POFM_BURSTROUNDSTEXT: RscText
 	{
 		idc = -1;
-		text = "Minimum spotting round distance:"; //--- ToDo: Localize;
+		text = "ROUNDS (PER GUN):"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 10) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
 	class POFM_FIREBUTTON: RscButton
 	{
 		idc = 1430;
-		text = "Fire Artillery"; //--- ToDo: Localize;
+		text = "SEND"; //--- ToDo: Localize;
 		x = ARTIWIDTHMAINSPACE * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 11) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
-	shadow = 0;
-			onMouseButtonDown = "[] call FNC_DIA_PolarFiremissionFire;";
+		shadow = 0;
+		onMouseButtonDown = "[] call tin_fnc_dia_PolarFiremissionFire;";
 	};
 	class POFM_SELECTEDGUNEDIT: RscListbox
 	{
@@ -179,73 +164,39 @@ class DIA_POLARFIREMISSION
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 1) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
+		h = (ARTILAYOUTHEIGHT * 2) * safezoneH;
 		//colorText[] = {0,1,1,1};
 		//
 		shadow = 0;
-		onLBSelChanged = "(_this select 1) call FNC_DIA_PolarFiremissionSetArtillery;";
+		onLBSelChanged = "(_this select 1) call tin_fnc_dia_PolarFiremissionSetArtillery;";
 	};
 	class POFM_SELECTEDSHELLEDIT: RscListbox
 	{
 		idc = POFM_DIA_IDC_SHELLSELECT;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 2) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-			shadow = 0;
-	};
-	class POFM_GRIDEDIT: RscEdit
-	{
-		idc = POFM_DIA_IDC_GRID;
-		text = ""; //--- ToDo: Localize;
-		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 3) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
-
-	shadow = 0;
+		h = (ARTILAYOUTHEIGHT * 2) * safezoneH;
+		shadow = 0;
 	};
-	class POFM_MILSEDIT: RscEdit
-	{
-		idc = POFM_DIA_IDC_MILS;
-		text = ""; //--- ToDo: Localize;
-		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 4) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
 
-	shadow = 0;
-	};
-	class POFM_DISTANCEEDIT: RscEdit
+	class POFM_NUMGUNEDIT: RscListbox
 	{
-		idc = POFM_DIA_IDC_DISTANCE;
+		idc = POFM_DIA_IDC_NUMGUNSELECT;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 5) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
-
-	shadow = 0;
+		h = (ARTILAYOUTHEIGHT * 2) * safezoneH;
+		//colorText[] = {0,1,1,1};
+		//
+		shadow = 0;
 	};
-	class POFM_DISPERSIONEDIT: RscEdit
-	{
-		idc = POFM_DIA_IDC_DISPERSION;
-		text = ""; //--- ToDo: Localize;
-		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 6) * safezoneH + safezoneY;
-		w = ARTILAYOUTWIDTH * safezoneW;
-		h = ARTILAYOUTHEIGHT * safezoneH;
-		colorText[] = {0,0,0,1};
 
-	shadow = 0;
-	};
-	class POFM_BURSTNUMBEREDIT: RscEdit
+	class POFM_GRIDEDIT: RscEdit
 	{
-		idc = POFM_DIA_IDC_BURSTNUMBER;
+		idc = POFM_DIA_IDC_GRID;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 7) * safezoneH + safezoneY;
@@ -253,11 +204,11 @@ class DIA_POLARFIREMISSION
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_BURSTROUNDSEDIT: RscEdit
+	class POFM_MILSEDIT: RscEdit
 	{
-		idc = POFM_DIA_IDC_BURSTROUNDS;
+		idc = POFM_DIA_IDC_MILS;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 8) * safezoneH + safezoneY;
@@ -265,11 +216,11 @@ class DIA_POLARFIREMISSION
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_BURSTDELAYEDIT: RscEdit
+	class POFM_DISTANCEEDIT: RscEdit
 	{
-		idc = POFM_DIA_IDC_BURSTDELAY;
+		idc = POFM_DIA_IDC_DISTANCE;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 9) * safezoneH + safezoneY;
@@ -277,34 +228,29 @@ class DIA_POLARFIREMISSION
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-
-	shadow = 0;
+		shadow = 0;
 	};
-	class POFM_SPOTTINGDISTANCEDIT: RscEdit
+	class POFM_BURSTROUNDSEDIT: RscEdit
 	{
-		idc = POFM_DIA_IDC_SPOTTING;
+		idc = POFM_DIA_IDC_BURSTROUNDS;
 		text = ""; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
-		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 10) * safezoneH + safezoneY;
+		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 10) * safezoneH + safezoneY
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
 		colorText[] = {0,0,0,1};
 
-	shadow = 0;
+		shadow = 0;
 	};
 	class POFM_CANCELBUTTON: RscButton
 	{
 		idc = 1600;
-		text = "Cancel"; //--- ToDo: Localize;
+		text = "CANCEL"; //--- ToDo: Localize;
 		x = (ARTIWIDTHMAINSPACE + ARTILAYOUTWIDTHSPACE) * safezoneW + safezoneX;
 		y = (ARTIHEIGHTMAINSPACE + ARTILAYOUTHEIGHTSPACE * 11) * safezoneH + safezoneY;
 		w = ARTILAYOUTWIDTH * safezoneW;
 		h = ARTILAYOUTHEIGHT * safezoneH;
-	shadow = 0;
-			onMouseButtonDown = "[] call FNC_DIA_PolarFiremissionCloseDialog;";
+		shadow = 0;
+		onMouseButtonDown = "[] call tin_fnc_dia_polarFiremissionCloseDialog;";
 	};
 };
-
-////////////////////////////////////////////////////////
-// GUI EDITOR OUTPUT END
-////////////////////////////////////////////////////////

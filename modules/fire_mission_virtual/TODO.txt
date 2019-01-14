@@ -1,0 +1,4 @@
+c	FIX FIREMISSION REGISTRY (registering fired missions for all sides)
+c	FIX AMMO COUNT UPDATING
+c	SECONDARY BATTERIES NOT SHOWING AMMO WHEN PRIMARY IS FIRING
+c	Cancellation does not work in multiplayer
