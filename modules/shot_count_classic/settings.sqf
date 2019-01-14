@@ -1,21 +1,17 @@
-/*	It's dangerous to go alone, take this:
-	_ammoArray = [];
-	{
-		{
-			_ammoClass = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
-			if !(_ammoClass in _ammoArray) then {
-				_ammoArray set [count _ammoArray,_ammoClass];
-			};
-		} forEach magazines _x;
-	} forEach allMissionObjects "ALL";
-	diag_log _ammoArray;
-*/
+//If units are spawned, this should be run on them: ["aCount_event_addEH", UNIT] call CBA_fnc_serverEvent;
+//[] call aCount_listMagazines can be used to get the magazines for all magazines in the mission excluding disposables that aren't currently in use, as they spawn magazines only when brought out the first time
+
+	//Array of units to exclude from ammo count
+	aCount_exclusionList = [];
 
 	aCount_textBLU = "BLUFOR Munitions Expended:";
 	aCount_textRED = "REDFOR Munitions Expended:";
 
 	//[displayName,[[classname],[classname]]]
 	aCount_masterArray = [
+		["5.8x42",[
+			["B_580x42_Ball_F"]
+		]],	
 		["5.56x45",[
 			["rhs_ammo_556x45_M855A1_Ball"],
 			["rhs_ammo_556x45_M855_Ball"],
@@ -69,7 +65,7 @@
 			["rhsusf_40mm_white"],
 			["rhsusf_40mm_green"],
 			["rhsusf_40mm_red"],
-			["G_40mm_SmokeRed"]	
+			["G_40mm_SmokeRed"]
 		]],
 		["Hand Grenades",[
 			["rhs_ammo_m67"],
@@ -115,6 +111,7 @@
 			["rhs_ammo_m72a7_rocket"],
 			["rhs_rpg26_rocket"],
 			["rhs_rshg2_rocket"],
+			["rhs_ammo_rpg75_rocket"],
 			["rhs_ammo_M136_rocket"]
 		]],
 		["MAT",[
@@ -139,6 +136,7 @@
 		["60MM Mortar",[
 			["UO_Sh_60mm"],
 			["UO_Flare_60mm_white"],
-			["Smoke_82mm_AMOS_White"]
+			["Smoke_82mm_AMOS_White"],
+			["UK3CB_BAF_Sh_60mm_AMOS"]
 		]]
 	];

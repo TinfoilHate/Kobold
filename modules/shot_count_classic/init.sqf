@@ -1,6 +1,6 @@
 if (isServer) then {
 	[{ time > 0 }, {
-		{ _x call aCount_addEH; } forEach allMissionObjects "All";
+		{ if !(_x in aCount_exclusionList) then {_x call aCount_addEH}; } forEach allMissionObjects "All";
 	}] call CBA_fnc_waitUntilAndExecute;
 };
 

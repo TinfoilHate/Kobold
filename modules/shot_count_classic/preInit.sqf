@@ -4,10 +4,58 @@
 //Much script by beta, some script by TinfoilHate
 //Sets up ammo counting
 
-	
-		#include "settings.sqf"
+	#include "settings.sqf"
 
-    if (isServer) then {
+	aCount_listMagazines = {
+		_ammoArray = [];
+		_AmmoTotal = [];
+		{
+			if (_x isKindOf "MAN") then {
+				{
+					if (count _ammoArray < 21) then {
+						_ammoClass = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						if !(_ammoClass in _ammoTotal) then {
+							_ammoArray set [count _ammoArray,_ammoClass];
+							_ammoTotal set [count _ammoTotal,_ammoClass];
+						};
+					} else {
+						diag_log _ammoArray;
+						_ammoArray = [];
+
+						_ammoClass = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						if !(_ammoClass in _ammoTotal) then {
+							_ammoArray set [count _ammoArray,_ammoClass];
+							_ammoTotal set [count _ammoTotal,_ammoClass];
+						};
+					};
+				} forEach magazines _x;
+			} else {
+				{
+					_mag = _x select 0;
+					if (count _ammoArray < 21) then {
+						_ammoClass = getText (configFile >> "CfgMagazines" >> _mag >> "ammo");
+						if !(_ammoClass in _ammoTotal) then {
+							_ammoArray set [count _ammoArray,_ammoClass];
+							_ammoTotal set [count _ammoTotal,_ammoClass];
+						};
+					} else {
+						diag_log _ammoArray;
+						_ammoArray = [];
+
+						_ammoClass = getText (configFile >> "CfgMagazines" >> _mag >> "ammo");
+						if !(_ammoClass in _ammoTotal) then {
+							_ammoArray set [count _ammoArray,_ammoClass];
+							_ammoTotal set [count _ammoTotal,_ammoClass];
+						};
+					};
+				} forEach magazinesAllTurrets _x;
+			};
+		} forEach allMissionObjects "ALL";
+
+		if (count _ammoArray > 0) then {diag_log _ammoArray};
+	};
+
+	if (isServer) then {
 		aCount_bluArray = [];
 		aCount_redArray = [];
 		{	//0 = varname, 1 = friendly name, 2 = array of classes
@@ -87,7 +135,7 @@
 
 				if (_count > 0) then {_munitionsRED set [count _munitionsRED,[_count,_name]]};
 			} forEach aCount_redArray;
-			
+
 			["aCount_event_scoreScreen", [_munitionsBLU,_munitionsRED]] call CBA_fnc_globalEvent;
 		};
 	};
@@ -102,17 +150,17 @@
 					_count = _x select 0;
 					_label = _x select 1;
 
-					aCount_textBLU = aCount_textBLU + "<br/>" + _label + ": " + str(_count) + "<br/>";
+					aCount_textBLU = aCount_textBLU + "<br/> " + _label + ": " + str(_count) + " ";
 				} forEach _arrayBLU;
 				{
 					_count = _x select 0;
 					_label = _x select 1;
 
-					aCount_textRED = aCount_textRED + "<br/>" +  _label + ": " + str(_count) + "<br/>";
+					aCount_textRED = aCount_textRED + "<br/> " +  _label + ": " + str(_count) + " ";
 				} forEach _arrayRED;
-				
+
 				aCount_textRES = "";
-			};		
+			};
 		};
 
 		["aCount_event_scoreScreen",aCount_shotDisplay] call CBA_fnc_addEventHandler;
