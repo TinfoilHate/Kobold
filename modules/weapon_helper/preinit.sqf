@@ -114,4 +114,5 @@ FNC_maghelper = {
 	};
 
 	_unit addPrimaryWeaponItem (selectRandom _magazine);
+	_unit addHandgunItem (selectRandom _magazine);
 };

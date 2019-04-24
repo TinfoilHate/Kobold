@@ -23,7 +23,7 @@ The initial example would be for an insurgent force, and is intended to provide 
 */
 
 //These determine the chance that an attachment from each category is selected. > 1 always has one, and the lower the number, the more rare it is.
-fw_weaponhelper_opticChance 	= 1.1;
-fw_weaponhelper_muzzleChance	= 1.1;
-fw_weaponhelper_pointerChance	= 1.1;
-fw_weaponhelper_bipodChance		= 1.1;
+fw_weaponhelper_opticChance 	= 2;
+fw_weaponhelper_muzzleChance	= 2;
+fw_weaponhelper_pointerChance	= 2;
+fw_weaponhelper_bipodChance		= 2;

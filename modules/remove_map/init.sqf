@@ -18,7 +18,7 @@
 					};
 				} else {
 					_unit unlinkItem "ItemMap";
-					_unit unlinkItem "ItemCompass";
+					//_unit unlinkItem "ItemCompass";
 				};
 			};
 		} forEach allUnits;

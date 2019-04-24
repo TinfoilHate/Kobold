@@ -11,7 +11,7 @@
 	aCount_masterArray = [
 		["5.8x42",[
 			["B_580x42_Ball_F"]
-		]],	
+		]],
 		["5.56x45",[
 			["rhs_ammo_556x45_M855A1_Ball"],
 			["rhs_ammo_556x45_M855_Ball"],
@@ -96,35 +96,40 @@
 			["RHS_ammo_M792_HEI"],
 			["RHS_ammo_M919_APFSDS"]
 		]],
-		["30MM",[
-			["B_30mm_MP_Tracer_Yellow"],
-			["B_30mm_APFSDS_Tracer_Yellow"]
+		["30x165",[
+			["rhs_ammo_3uof8"],
+			["rhs_ammo_3ubr8"]
 		]],
 		["ATGM",[
 			["rhs_ammo_TOW2A_AT"],
 			["rhs_ammo_TOW2_BB"],
 			["M_Titan_AT"],
 			["rhs_ammo_9m119"],
-			["rhs_ammo_9m131m"]
+			["rhs_ammo_9m131m"],
+			["rhs_ammo_9m113M"]
 		]],
-		["LAT",[
+		["M72 LAW",[
 			["rhs_ammo_m72a7_rocket"],
 			["rhs_rpg26_rocket"],
 			["rhs_rshg2_rocket"],
 			["rhs_ammo_rpg75_rocket"],
 			["rhs_ammo_M136_rocket"]
 		]],
-		["MAT",[
+		["RPG-26",[
+			["rhs_rpg26_rocket"]
+		]],
+		["RshG-2",[
+			["rhs_rshg2_rocket"]
+		]],
+		["RPG-7",[
 			["rhs_rpg7v2_pg7v"],
 			["rhs_rpg7v2_pg7vl"],
 			["rhs_rpg7v2_pg7vr"],
 			["rhs_rpg7v2_og7v"],
-			["rhs_rpg7v2_tbg7v"],
-			["rhs_ammo_smaw_HEAA"],
-			["rhs_ammo_smaw_HEDP"],
-			["rhs_ammo_maaws_HEDP"],
-			["rhs_ammo_maaws_HE"],
-			["rhs_ammo_maaws_HEAT"]
+			["rhs_rpg7v2_tbg7v"]
+		]],
+		["M47 Dragon",[
+			["ace_missile_dragon"]
 		]],
 		["125MM Shells",[
 			["rhs_ammo_3bm42"],
@@ -132,6 +137,10 @@
 			["rhs_ammo_3bk18M"],
 			["rhs_ammo_3bk31"],
 			["rhs_ammo_3of26"]
+		]],
+		["120MM Shells",[
+			["rhs_ammo_M829"],
+			["rhs_ammo_M830"]
 		]],
 		["60MM Mortar",[
 			["UO_Sh_60mm"],

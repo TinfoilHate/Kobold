@@ -8,5 +8,6 @@
 //If you want all teams to have this AO limit use ANY.
 
 //Example:
-//ADDAOMARKER(ANY, "entireAO");
-//ADDAOMARKER(east, "Kavala");
+//ADDAOMARKER(ANY, "aoLimit_1");
+//ADDAOMARKER(west, "aoLimit_blu");
+//ADDAOMARKER(independent, "aoLimit_grn");

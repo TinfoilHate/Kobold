@@ -95,7 +95,7 @@ if (_timeLimit != 0) then {
 
 if (!isNil "aCount_textBLU" && !isNil "aCount_textRED") then {
 	_bottomTextLeft = format["%1",aCount_textBLU];
-	_bottomTextRight = format["%1",aCount_textRES];
+	_bottomTextRight = format["%1",aCount_textRED];
 };
 
 disableSerialization;

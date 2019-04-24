@@ -2,7 +2,7 @@
 //RADIO SCRAMBLE
 //////////////////
 
-FW_enable_scramble = false;
+FW_enable_scramble = true;
 
 //If enabled all sides will have different scramble frequencies.
 //Function below is to switch one unit to different scramble side.
@@ -34,7 +34,7 @@ FW_enable_scramble = false;
 //CHANNEL NAMES
 /////////////
 
-FW_enable_channel_names = false;
+FW_enable_channel_names = true;
 
 //define custom radio channel names in following array
 //don't change "label" value!
@@ -44,37 +44,33 @@ FW_ChannelNames = [
 		[1, "label", "PLTNET 1"],
 		[2, "label", "PLTNET 2"],
 		[3, "label", "PLTNET 3"],
-		[4, "label", "PLTNET 4"],
-		[5, "label", "COY"],
-		[6, "label", "CAS"],
-		[7, "label", "FIRES"]
+		[4, "label", "COY"],
+		[5, "label", "CAS"],
+		[6, "label", "FIRES"]
 	],
 	[//EAST
 		[1, "label", "PLTNET 1"],
 		[2, "label", "PLTNET 2"],
 		[3, "label", "PLTNET 3"],
-		[4, "label", "PLTNET 4"],
-		[5, "label", "COY"],
-		[6, "label", "CAS"],
-		[7, "label", "FIRES"]
+		[4, "label", "COY"],
+		[5, "label", "CAS"],
+		[6, "label", "FIRES"]
 	],
 	[//INDEPENDENT
 		[1, "label", "PLTNET 1"],
 		[2, "label", "PLTNET 2"],
 		[3, "label", "PLTNET 3"],
-		[4, "label", "PLTNET 4"],
-		[5, "label", "COY"],
-		[6, "label", "CAS"],
-		[7, "label", "FIRES"]
+		[4, "label", "COY"],
+		[5, "label", "CAS"],
+		[6, "label", "FIRES"]
 	],
 	[//DEFAULT - USE THIS IF SCRAMBLE IS OFF
 		[1, "label", "PLTNET 1"],
 		[2, "label", "PLTNET 2"],
 		[3, "label", "PLTNET 3"],
-		[4, "label", "PLTNET 4"],
-		[5, "label", "COY"],
-		[6, "label", "CAS"],
-		[7, "label", "FIRES"]
+		[4, "label", "COY"],
+		[5, "label", "CAS"],
+		[6, "label", "FIRES"]
 	]
 ];
 
@@ -82,7 +78,7 @@ FW_ChannelNames = [
 //BABEL
 //////////////
 
-FW_enable_babel = false;
+FW_enable_babel = true;
 
 /*
  * FNC_SetLanguages
@@ -99,15 +95,14 @@ FW_enable_babel = false;
 
 FW_all_languages = [
 	["en", "English"],
-	["ru", "Russian"],
-	["fr", "French"]
+	["ru", "Russian"]
 ];
 
 //define languages for different sides
 FW_languages_babel = [
-	["fr", "en"],//WEST
-	["ru", "en"],//EAST
-	["fr", "en", "ru"],//INDEPENDENT
+	["en"],//WEST
+	["ru"],//EAST
+	["en"],//INDEPENDENT
 	["en"]//DEFAULT/CIVILIAN
 ];
 
@@ -155,9 +150,9 @@ FW_enable_addRackDebug = false;
 FW_ORRList = [
 	//These examples will cause errors if you do not comment them out or remove them.
 	//If you want to test the module, make an object and give it the variable name accVic, or change this name to whatever you want it to be
-	["accVic", "ACRE_VRC103", true, false, ["Radio Rack One", "R1"], ["driver",["cargo",0], ["cargo",1]], ["cargo"], west],
-	["accVic", "ACRE_VRC103", false, true, ["Radio Rack Two", "R2"], ["driver",["cargo",0], ["cargo",1]], ["cargo"], west],
-	["accVic", "ACRE_VRC103", true, true, ["Radio Rack Three", "R3"], ["driver", ["cargo",0]], ["cargo"], west]
+	//["accVic", "ACRE_VRC103", true, false, ["Radio Rack One", "R1"], ["driver",["cargo",0], ["cargo",1]], ["cargo"], west],
+	//["M113_TOW", "ACRE_VRC103", false, true, ["Radio Rack", "R2"], ["driver",["cargo",0], ["cargo",1]], ["cargo"], west],
+	//["M113_TOW2", "ACRE_VRC103", true, true, ["Radio Rack", "R3"], ["driver", ["cargo",0]], ["cargo"], west]
 	/*	For whitelisted/blacklisted positions
 	 *	If you wish to limit access to the rack to certain specific seats use this array setyp:
 	 *	[_name, _num] 
@@ -225,5 +220,5 @@ FW_ORRList = [
   +2			|  15		|  55		 |  195
 */
 
-FW_Acre_Volume_Value = -1;
+FW_Acre_Volume_Value = 0;
 

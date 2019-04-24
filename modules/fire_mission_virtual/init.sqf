@@ -43,23 +43,33 @@ if (!isDedicated && hasInterface) then {
 [{!isNil "tin_var_artyObservers"}, {
 	_action = ["Artillery_Menu", "Firemission", "", {true}, {
 		_radioList = [] call acre_api_fnc_getCurrentRadioList;
+		_ret = false;
 		{
 			switch (side player) do {
 				case west: {
-					[_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_west;
+					if ([_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_west && !([_x, "ACRE_PRC343"] call acre_api_fnc_isKindOf)) then {
+						_ret = true;
+					};
 				};
 				case east: {
-					[_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_east;
+					if ([_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_east && !([_x, "ACRE_PRC343"] call acre_api_fnc_isKindOf)) then {
+						_ret = true;
+					};
 				};
 				case independent: {
-					[_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_independent;
+					if ([_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_independent && !([_x, "ACRE_PRC343"] call acre_api_fnc_isKindOf)) then {
+						_ret = true;
+					};
 				};
 				case civilian: {
-					[_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_civilian;
+					if ([_x] call acre_api_fnc_getRadioChannel == tin_var_artyFreq_civilian && !([_x, "ACRE_PRC343"] call acre_api_fnc_isKindOf)) then {
+						_ret = true;
+					};
 				};
-				default {false};
 			};
 		} forEach _radioList;
+		
+		_ret
 	}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 
@@ -89,14 +99,14 @@ if (!isDedicated && hasInterface) then {
 
 		private _childStatement = {
 			params ["_target", "_player", "_array"];
-			
+
 			_array params ["_id","_cancel","_subArray"];
 			_subArray params ["_obs","_name","_selectedAmmo","_selectedGrid","_selectedMils","_selectedDist","_selectedRnds","_selectedGuns"];
-			
+
 			_subArray set [0,_player];
-			
+
 			_array = [_id,_cancel,_subArray];
-	
+
 			["tin_evt_callPolarFiremissionRepeat", _array] call CBA_fnc_serverEvent;
 		};
 		private _action = ["RepeatMission", "Repeat Mission", "", _childStatement, {true}, {}, _this # 2] call ace_interact_menu_fnc_createAction;

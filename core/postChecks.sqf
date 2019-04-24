@@ -2,7 +2,7 @@ if (!isDedicated) then {
 	
 	private ["_modules", "_module"];
 
-	_modules = "<font size='18'>Olsen Framework Modules</font><br/><br/>";
+	_modules = "<font size='18'>Kobold Framework Modules</font><br/><br/>";
 
 	for "_i" from 0 to count FW_Modules - 1 do {
 	

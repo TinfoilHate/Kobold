@@ -4,4 +4,5 @@
 //SIDE is the side of the setup marker, TIME is the time in seconds until the setup marker is removed, NAME is the name of the setup marker.
 
 //Example:
-//ADDSETUPMARKER(west, (60 * 5), "airfield");
+//ADDSETUPMARKER(west, (60 * 3), "bluSetup");
+//ADDSETUPMARKER(east, (60 * 3), "redSetup");

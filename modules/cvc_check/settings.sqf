@@ -15,7 +15,7 @@
 #define WESTCVC "rhsusf_cvc_green_alt_helmet"
 
 //East CVC Class
-#define EASTCVC "RHS_TSH4_ESS"
+#define EASTCVC "rhs_tsh4"
 
 //Resistance CVC Class
 #define GUERCVC "rhsusf_cvc_green_alt_helmet"

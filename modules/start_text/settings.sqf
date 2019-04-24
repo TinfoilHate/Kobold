@@ -10,26 +10,26 @@
 //TIME -> Displays time (no text required)
 //DATE -> Displays date (no text required)
 //DATETIME -> Displays date and time (no text required)
+//DATETIMEYEAR -> Displays date, time, and year (no text required)
+//DTG -> Date-Time Group (time zone letter required) Ex: ["DTG","B"]
+//DTGY -> Date-Time Group, Custom Year (time zone letter and year required) Ex: ["DTG","B",1970]
 
 
-switch (side player) do { //Checks what team the player is on
+switch (side player) do {
 
-	case west: { //If player is west he receives this message
-
+	case west: {
 		_startTextArray = [
-			["TITLEQUOTE", "BLUFOR Time"],
-			["TEXT", "Somewhere in Kavala"],
-			["DATETIME"]
+			["TITLE", "KOBOLD"],
+			["DTG","B"]
 		];
 
 	}; //End of west case
 
-	case east: { //If player is east he receives this message
+	case east: {
 
 		_startTextArray = [
-			["TITLEQUOTE", "Malden"],
-			["TEXT", "Near Saint Maire"],
-			["DATETIME"]
+			["TITLE", "KOBOLD"],
+			["DTG","B"]
 		];
 
 	}; //End of east case
@@ -37,20 +37,16 @@ switch (side player) do { //Checks what team the player is on
 	case independent: {
 
 		_startTextArray = [
-			["TITLEQUOTE", "Malden"],
-			["TEXT", "Near Saint Maire"],
-			["DATETIME"]
+			["TITLE", "KOBOLD"],
+			["DTG","B"]
 		];
 
 	};
 
-	case civilian: {
-
+	default {
 		_startTextArray = [
-			["TITLEQUOTE", "Malden"],
-			["TEXT", "Near Saint Maire"],
-			["DATETIME"]
+			["TITLE", "KOBOLD"],
+			["DTG","B"]
 		];
-
 	};
-}; //End of switch
+};

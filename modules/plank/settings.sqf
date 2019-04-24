@@ -11,12 +11,17 @@
 //					Set it to {}, if you don't want to use it. The unit who confirmed the placement and the object placed, are passed as arguments to the code.
 //					An example code that hints the players name could look like {hint str (_this select 0);}.
 
-//[player, [4,2]] call plank_api_fnc_forceAddFortifications;
+//[player, [6,4,2,2,4,1]] call plank_api_fnc_forceAddFortifications;
 
 plank_deploy_fortData = [
 
 	// Action text					  |  Classname							|  Distance	 |  Direction	 |  Direction Range  |  Code
 	//--------------------------------------------------------------------------------------------------------------------------------------
-	["Small Trench",						"Fort_EnvelopeSmall",			   	6,			  0,				360,			{}]
+	["Small Trench",                        "Fort_EnvelopeSmall",               	6,              0,                360,            	{}],
+	["Sandbags (Short)",                    "Land_BagFence_Short_F",               	6,              0,                360,    			{}],
+	["Sandbags (Round)",                    "Land_BagFence_Round_F",               	6,              180,              360,    			{}],
+	["Sandbags (Long)",                     "Land_BagFence_Long_F",               	6,              0,                360,       		{}],
+	["Bush (Camo)",                       	"CUP_Krovi",               				6,              0,                360,        		{}],
+	["Rampart",                       		"Land_Rampart_F",               		8,              -90,              360,        		{}]
 
 ];

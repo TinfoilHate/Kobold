@@ -1,0 +1,115 @@
+tin_favela_structures_raw = [2200,12000] nearObjects ["House", 500];
+tin_favela_structures_filtered = [];
+
+tin_favela_structures_whitelist = ["Land_House_Big_05_F","Land_House_Small_04_F","Land_House_Small_05_F","Land_House_Small_06_F","Land_Slum_03_F","Land_Shed_07_F","Land_GarageShelter_01_F","Land_Shed_04_F","Land_Shed_02_F","Land_Slum_05_F","Land_Slum_House02_F","Land_Slum_02_F","Land_Shed_06_F","Land_Shed_05_F","Land_FuelStation_02_workshop_F","Land_cargo_house_slum_F","Land_cargo_addon01_V2_F","Land_Slum_House03_F","Land_cargo_addon02_V2_F","Land_cargo_addon02_V1_F","Land_House_Small_02_F","Land_Slum_04_F","Land_Shop_Town_03_F","Land_Shop_Town_02_F","Land_Shed_03_F","Land_Slum_01_F","Land_Slum_House01_F","Land_Barn_01_brown_F","Land_Metal_Shed_F","Land_Shed_Small_F","Land_Barn_01_grey_F","Land_GuardHouse_01_F","Land_Chapel_Small_V2_F","Land_i_Garage_V2_F","Land_u_Addon_01_V1_F","Land_d_Stone_Shed_V1_F"];
+
+tin_favela_civ_uniform = ["U_C_Poor_1","U_C_Poloshirt_blue","U_C_Poloshirt_burgundy","U_C_Poloshirt_redwhite","U_C_Poloshirt_salmon","U_C_Poloshirt_stripped","U_C_Poloshirt_tricolour","U_BG_Guerilla2_2","U_BG_Guerilla2_1","U_BG_Guerilla2_3","U_BG_Guerilla3_1","U_C_HunterBody_grn","U_OrestesBody","U_C_WorkerCoveralls","U_I_C_Soldier_Bandit_4_F","U_I_C_Soldier_Bandit_1_F","U_I_C_Soldier_Bandit_2_F","U_I_C_Soldier_Bandit_5_F","U_I_C_Soldier_Bandit_3_F","U_C_man_sport_2_F","U_C_Man_casual_6_F","U_C_Man_casual_4_F","U_C_Man_casual_5_F"];
+tin_favela_civ_hat = ["H_Bandanna_gry","H_Bandanna_blu","H_Bandanna_cbr","H_Bandanna_khk","H_Bandanna_sgg","H_Bandanna_sand","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Cap_blk","H_Cap_blu","H_Cap_grn","H_Cap_oli","H_Cap_red","H_Cap_surfer","H_Cap_tan","H_Hat_blue","H_Hat_brown","H_Hat_camo","H_Hat_checker","H_Hat_grey","H_Hat_tan","H_StrawHat","H_StrawHat_dark","H_Hat_Safari_olive_F","H_Hat_Safari_sand_F"];
+tin_favela_civ_goggles = ["G_Aviator","G_Lady_Blue","G_Shades_Black","G_Shades_Blue","G_Shades_Green","G_Shades_Red","G_Spectacles","G_Sport_Red","G_Sport_Blackyellow","G_Sport_BlackWhite","G_Sport_Checkered","G_Sport_Blackred","G_Sport_Greenblack","G_Squares_Tinted","G_Squares","G_WirelessEarpiece_F"];
+
+{
+	if (typeOf _x in tin_favela_structures_whitelist) then {
+		_sizeX = ((boundingBox _x) # 1 # 0) / 2 + 1;
+		_sizeY = ((boundingBox _x) # 1 # 1) / 2 + 1;
+
+		if (typeOf _x in ["Land_Barn_01_brown_F","Land_Barn_01_grey_F"]) then {
+			_sizeY = ((boundingBox _x) # 1 # 1) / 2 - 2;
+			_sizeY = ((boundingBox _x) # 1 # 1) / 2 - 3;
+		};
+
+		_trigMarker = createMarker [str(random 10000000),position _x];
+		_trigMarker setMarkerShape "RECTANGLE";
+		_trigMarker setMarkerBrush "SolidFull";
+		_trigMarker setMarkerColor "ColorGrey";
+		_trigMarker setMarkerSize [_sizeX, _sizeY];
+		_trigMarker setMarkerDir (getDir _x);
+		_trigMarker setMarkerAlpha 1;
+
+		if (_x != HQ) then {tin_favela_structures_filtered pushBack (position _x)};
+	};
+} forEach tin_favela_structures_raw;
+
+tin_favela_fnc_spawnAI = {
+	_newGroup = createGroup [civilian,true];
+
+	_newUnit = _newGroup createUnit ["C_Man_casual_1_F_tanoan", [0,0,0], [], 0, "NONE"];
+	
+	_newUnit addUniform (selectRandom tin_favela_civ_uniform);
+	if (random 1 > 0.6) then {_newUnit addHeadgear (selectRandom tin_favela_civ_hat)};
+	if (random 1 > 0.4) then {_newUnit addGoggles (selectRandom tin_favela_civ_goggles)};
+	
+	_newPosList = [];
+	for "_i" from 1 to 5 do {
+		_newHouseList = selectRandom tin_favela_structures_filtered;
+		_newPosList pushBack _newHouseList;
+	};
+
+	{
+		_newWP = _newGroup addWaypoint [(_newPosList select _forEachIndex), 50];
+
+		if (_forEachIndex == 4) then {
+			_newWP setWaypointStatements ["true", "deleteVehicle this; call tin_favela_fnc_spawnAI;"];
+		};
+	} forEach _newPosList;
+
+	{
+		_x setWaypointSpeed "LIMITED";
+		_x setWaypointBehaviour "SAFE";
+	} forEach waypoints _newGroup;
+
+	_newUnit setPosATL [(waypointPosition [_newGroup, 1]) # 0,(waypointPosition [_newGroup, 1]) # 1, 0];
+};
+
+for "_i" from 1 to 100 do {
+	call tin_favela_fnc_spawnAI;
+};
+
+_hqMarker = createMarker ["HQMARK",position HQ];
+_hqMarker setMarkerType "mil_objective";
+_hqMarker setMarkerColor "ColorOPFOR";
+_hqMarker setMarkerAlpha 1;
+_hqMarker setMarkerText "HQ";
+
+tin_favela_fnc_hostage = {
+	params ["_unit"];
+
+	if (!isServer) exitWith {};
+
+	doStop _unit;
+
+	_unit setBehaviour "CARELESS";
+	_unit allowFleeing 0;
+	_unit setCaptive true;
+
+	if (random 100 >= 50) then {
+		_newHat = ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"] call BIS_fnc_selectRandom;
+		_unit addHeadgear _newHat;
+	};
+
+	_unit setDamage 0.4 + (random 0.4);
+
+	[{
+		params ["_unit"];
+
+		_unit setBehaviour "CARELESS";
+		_unit allowFleeing 0;
+		_unit setCaptive true;		
+		
+		_unit playMoveNow "Acts_AidlPsitMstpSsurWnonDnon04";
+
+		_EhAnimDone = _unit addEventHandler ["AnimDone", {
+			private "_unit";
+			_unit = _this select 0;
+
+			if (!alive _unit) exitWith {
+				_unit removeEventHandler ["AnimDone", _unit getVariable ["FW_EhAnimDone", 0]];
+			};
+
+			_unit playMoveNow "Acts_AidlPsitMstpSsurWnonDnon04";
+		}];
+
+		_unit setVariable ["FW_EhAnimDone", _EhAnimDone];
+	}, _this, (random 2)] call CBA_fnc_waitAndExecute;
+};
+
+{[_x] call tin_favela_fnc_hostage} forEach [HOSTAGE1,HOSTAGE2];

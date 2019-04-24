@@ -22,17 +22,17 @@ if (!isDedicated) then {
 			_allowedOutside = true;
 			_vehicle = (vehicle player);
 			_pos = getPosATL _vehicle;
-			
+
 			{
 				if ((_x select 0) == (side player) || (_x select 0) == ANY) then {
 					_markers set [count _markers, (_x select 1)];
-					
+
 					if ([_vehicle, (_x select 1)] call FNC_InArea) then {
 						_allowedOutside = false;
 					};
 				};
 			} forEach (_this select 0);
-			
+
 			while {true} do {
 				_vehicle = (vehicle player);
 
@@ -43,7 +43,7 @@ if (!isDedicated) then {
 							_outSide = false;
 						};
 					} forEach _markers;
-					
+
 					if (_outside) then {
 						if (!(_allowedOutside) && (_vehicle call FNC_Alive) && local _vehicle) then {
 							_vehicle setPosATL _pos;

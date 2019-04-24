@@ -1,54 +1,84 @@
-//ace_cookoff_enable = false; //this disables cookoff fire effect
-//ace_cookoff_enableAmmoCookoff = false; //this disables secondary explosions
+if (isNil "BLUFOR_obj1Flag") then {BLUFOR_obj1Flag = false};
+if (isNil "REDFOR_obj1Flag") then {REDFOR_obj1Flag = false};
 
 if (isServer) then {
+	setViewDistance 2000;
 
-	setViewDistance 2500; //View distance for the server (the ai's)
+	FW_TimeLimit = ["TimeLimit",0] call BIS_fnc_getParamValue;
+	FW_TimeLimitMessage = "TIME LIMIT REACHED!";
 
-	FW_TimeLimit = 30; //Time limit in minutes, to disable the time limit set it to 0
-	FW_TimeLimitMessage = "TIME LIMIT REACHED!"; //The message displayed when the time runs out
+	[west, "WEST SIDE", "player"] call FNC_AddTeam;
+	[east, "EAST SIDE", "player"] call FNC_AddTeam;
 
-	[west, "USMC", "player"] call FNC_AddTeam; //Adds a player team called USMC on side west
-	[east, "VDV", "ai"] call FNC_AddTeam; //Adds a ai team called VDV on side east
-	
-	// [resistance, "Local Militia", "player"] call FNC_AddTeam; //Adds a player team called Local Militia on side resistance (aka independent)
+	{
+		if (!isMultiplayer) then {
+			if (side _x == west) then {
+				doStop _x;
+			};
+		};
+	} forEach allUnits;
 
-	//Ticket pools for different sides
-	FW_RespawnTicketsWest = 0;
-	publicVariable "FW_RespawnTicketsWest";
-	FW_RespawnTicketsEast = 0;
-	publicVariable "FW_RespawnTicketsEast";
-	FW_RespawnTicketsInd = 0;
-	publicVariable "FW_RespawnTicketsInd";
-	FW_RespawnTicketsCiv = 0;
-	publicVariable "FW_RespawnTicketsCiv";
-
-	//wave respawn
-	FW_WaveSizeWest = 0; //How many players have to respawn before wave is released
-	FW_WaveSizeEast = 0;
-	FW_WaveSizeInd = 0;
-	FW_WaveSizeCiv = 0;
-
-	//Players should be put in enclosed space, when their number reaches treshold, the defined "gate" will disappear for 30 seconds
-	//it has to be defined for wave respawn to work
-	//FW_RespawnPenGateWest = YourEditorObjectName;
-	//FW_RespawnPenGateEast = YourEditorObjectName;
-	//FW_RespawnPenGateInd = YourEditorObjectName;
-	//FW_RespawnPenGateCiv = YourEditorObjectName;
+	//NATO Markers and BFT
+	[{vk_mods_markers_postInit}, {
+		//_blu1 = [getMarkerPos "bluMarker_1",west,["infantry","armor"],3,1,[west]] call vk_fnc_addMarker;
+		//_red1 = [getMarkerPos "redMarker_2",west,["infantry","armor","ifv"],3,1,[east]] call vk_fnc_addMarker;
+	}] call CBA_fnc_waitUntilAndExecute;
 };
 
-if (!isDedicated) then {
+if ((!hasInterface && !isDedicated) || !isMultiplayer) then {
+	//HEADLESS
+};
 
-	FW_DebugMessagesEnabled = true; //Only disable debug messages when the mission is released
+[{[true] call acre_api_fnc_ignoreAntennaDirection},[],1] call CBA_fnc_waitAndExecute;
 
-	setViewDistance 2500; //View distance for the player
+if (!isDedicated && hasInterface) then {
+	if (!isMultiplayer) then {FW_debugMessagesEnabled = true} else {FW_debugMessagesEnabled = false};	//Debug Messages
+	BIS_EGSpectator_drawProjectilesPath = true;	//Draw projectile paths in spectator
 
-	//call FNC_forceTerrainGrid; //uncomment this to force high terrain setting. This will prevent faraway objects from appearing as floating. Useful for missions with long sightlines.
-	
-	switch (side player) do { //Checks what team the player is on
+	setViewDistance 2000;
+
+	switch (side player) do {
 		case west: {
-			FW_RespawnTickets = 0; //If respawn is enabled you must create empty game logics, for respawn points, following the name format fw_side_respawn. Example: fw_west_respawn
+
 		};
-		//add more cases for other factions here
+
+		case east: {
+
+		};
+	};
+
+	[{!isNull player}, {	//Regular Player Stuff
+		ace_nightvision_noisescaling = 0.4;
+		ace_nightvision_fogscaling = 0.0;
+		ace_nightvision_aimdownsightsblur = 1.5;
+		ace_nightvision_effectscaling = 1;
+
+		switch (side player) do {
+			case west: {
+				
+			};
+
+			case east: {
+				
+			};
+		};
+	}, []] call CBA_fnc_waitUntilAndExecute;
+
+	[{!isNull acre_player}, {	//ACRE Stuff
+
+	}, []] call CBA_fnc_waitUntilAndExecute;
+
+	if (didJIP) then {	//JIP ONLY Stuff
+		[{!isNull player}, {
+			switch (side player) do {
+				case west: {
+
+				};
+
+				case east: {
+
+				};
+			};
+		}, []] call CBA_fnc_waitUntilAndExecute;
 	};
 };
