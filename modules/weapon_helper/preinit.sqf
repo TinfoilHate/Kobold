@@ -12,22 +12,28 @@ FNC_wephelper = {
 	// Sort the jumbled mass of organizational failure that is the _inputArray
 	{
 		if ("ItemCore" in ([(configFile >> "CfgWeapons" >> _x),true] call BIS_fnc_returnParents)) then {
-			_accList pushBack _x;
+			_accList pushBack toLower(_x);
 		};
 
 		if (isClass (configFile >> "CfgWeapons" >> _x) && !(_x in _accList)) then {
-			_weaponList pushBack _x;
+			_weaponList pushBack toLower(_x);
 		};
 
 		if (isClass (configFile >> "CfgMagazines" >> _x)) then {
-			_magazineList pushBack _x;
+			_magazineList pushBack toLower(_x);
 		};
 	} forEach _inputArray;
 
 	_newWeapon = selectRandom _weaponList;
 	_newMagList = [];
 	{
-		if (_x in (getArray (configFile >> "CfgWeapons" >> _newWeapon >> "magazines")) ) then {
+		//I hate this, a lot
+		_tempMagArray = [];
+		{	
+			_tempMagArray pushBack toLower(_x);
+		} foreach (getArray (configFile >> "CfgWeapons" >> _newWeapon >> "magazines"));
+
+		if (_x in _tempMagArray) then {
 			_newMaglist pushBack _x;
 		};
 	} forEach _magazineList;
@@ -79,7 +85,7 @@ FNC_maghelper = {
 			_u = 0;
 			while {_newMag = selectRandom _magazine; _unit canAddItemToUniform _newMag} do {
 				if (_u >= _max) exitWith {};
-				
+
 				[_newMag,1,"uniform"] call FNC_AddItem;
 
 				_u = _u + 1;
@@ -92,7 +98,7 @@ FNC_maghelper = {
 			_v = 0;
 			while {_newMag = selectRandom _magazine; _unit canAddItemToVest _newMag} do {
 				if (_v >= _max) exitWith {};
-				
+
 				[_newMag,1,"vest"] call FNC_AddItem;
 
 				_v = _v + 1;
@@ -105,7 +111,7 @@ FNC_maghelper = {
 			_b = 0;
 			while {_newMag = selectRandom _magazine; _unit canAddItemToBackpack _newMag} do {
 				if (_b >= _max) exitWith {};
-				
+
 				[_newMag,1,"backpack"] call FNC_AddItem;
 
 				_b = _b + 1;

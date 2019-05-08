@@ -20,6 +20,8 @@ PREP(removeAllVehicleGear);
 PREP(registerModule);
 PREP(checkClassname);
 PREP(makeUnitsList);
+PREP(makeSimple);
+PREP(assignGunner);
 
 FNC_Briefing = compile preprocessFileLineNumbers "customization\briefing.sqf";
 

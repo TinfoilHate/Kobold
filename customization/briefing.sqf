@@ -2,50 +2,45 @@
 
 if !("ItemMap" in assignedItems player) then {player linkItem "ItemMap"};
 
-switch (side player) do { //Checks what team the player is on
+switch (side player) do {
+	case west: {
+		NEWTAB("SITUATION")
+			<br/>Nil
+		ENDTAB;
 
-case west: { //If player is west he receives this briefing
+		NEWTAB("MISSION")
+			<br/>Nil
+		ENDTAB;
 
-NEWTAB("SITUATION")
-	<br/>Nil
-ENDTAB;
+		NEWTAB("EXECUTION")
+			<br/>Nil
+		ENDTAB;
 
-NEWTAB("MISSION")
-	<br/>Nil
-ENDTAB;
+		NEWTAB("SERVICE SUPPORT")
+			<br/>Nil
+		ENDTAB;
 
-NEWTAB("EXECUTION")
-	<br/>Nil
-ENDTAB;
+		NEWTAB("COMMAND AND SIGNAL")
+			<br/>Nil
+		ENDTAB;
+	};
 
-NEWTAB("SERVICE SUPPORT")
-	<br/>Nil
-ENDTAB;
+	case east: {
+		NEWTAB("ENEMY")
+			<br/>Nil
+		ENDTAB;
 
-NEWTAB("COMMAND AND SIGNAL")
-	<br/>Nil
-ENDTAB;
+		NEWTAB("MISSION")
+			<br/>Nil
+		ENDTAB;
 
-}; //End of west case
-
-case east: {
-
-NEWTAB("ENEMY")
-	<br/>Nil
-ENDTAB;
-
-NEWTAB("MISSION")
-	<br/>Nil
-ENDTAB;
-
-NEWTAB("ORDER")
-	<br/>Nil
-ENDTAB;
-
+		NEWTAB("ORDER")
+			<br/>Nil
+		ENDTAB;
+	};
 };
-}; //End of switch
 
-NEWTAB("MISSION NOTES") //This is shown for everyone
+NEWTAB("MISSION NOTES")
 	<br/>Nil
 	<br/>
 	<br/>Other stuff:
@@ -59,7 +54,7 @@ NEWTAB("MISSION NOTES") //This is shown for everyone
 	<br/> ----  Auto Fail Condition: Various
 ENDTAB;
 
-NEWTAB("GAME MASTERING") //This is shown for everyone
+NEWTAB("GAME MASTERING")
 	This mission is not designed for game mastering and should only be manipulated for technical, administrative or diagnostic purposes.
 ENDTAB;
 
