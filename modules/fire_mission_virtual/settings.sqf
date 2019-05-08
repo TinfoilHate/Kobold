@@ -1,10 +1,10 @@
 
 ["tin_var_artyObservers",[	//[OBJECT,"STRING",side]
-	//[OBS1,"BOCA",west]
+	[OBS1,"BOCA",west]
 ]] call tin_fnc_publicVariable;
 
-["tin_var_artyFreq_west",0] call tin_fnc_publicVariable;
-["tin_var_artyFreq_east",0] call tin_fnc_publicVariable;
+["tin_var_artyFreq_west",4] call tin_fnc_publicVariable;
+["tin_var_artyFreq_east",4] call tin_fnc_publicVariable;
 ["tin_var_artyFreq_independent",4] call tin_fnc_publicVariable;
 ["tin_var_artyFreq_civilian",4] call tin_fnc_publicVariable;
 
