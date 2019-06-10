@@ -4,7 +4,7 @@ _ret = false;
 
 _radioList = [] call acre_api_fnc_getCurrentRadioList;
 {
-	if (([_x, "ACRE_PRC148"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC152"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC117F"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC77"] call acre_api_fnc_isKindOf) && !_ret) then {
+	if (([_x, "ACRE_PRC148"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC152"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC117F"] call acre_api_fnc_isKindOf || [_x, "ACRE_PRC77"] call acre_api_fnc_isKindOf || [_x, "ACRE_SEM70"] call acre_api_fnc_isKindOf) && !_ret) then {
 
 		if (!isNil "tin_var_artyFreq_west" || !isNil "tin_var_artyFreq_east" || !isNil "tin_var_artyFreq_independent" || !isNil "tin_var_artyFreq_civilian") then {
 			switch (side player) do {

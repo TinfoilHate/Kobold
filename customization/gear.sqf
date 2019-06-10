@@ -15,6 +15,11 @@ FW_enableOverfill = true;
 _unit call FNC_RemoveAllGear;
 
 switch (_type) do {
-	
+
 	#include "loadouts\EXAMPLE.sqf"
+
+	// DO NOT REMOVE THIS
+	default {
+		(format ["(FNC_GEARSCRIPT) [ERR]: UNIT: %1 USING TYPE: %2 IS USING AN INVALID GEAR TYPE!",_unit,_type]) call FNC_DebugMessage;
+	};
 };

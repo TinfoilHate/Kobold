@@ -21,7 +21,11 @@ PREP(registerModule);
 PREP(checkClassname);
 PREP(makeUnitsList);
 PREP(makeSimple);
+
+PREP(assignCommander);
 PREP(assignGunner);
+PREP(assignDriver);
+PREP(assignCargo);
 
 FNC_Briefing = compile preprocessFileLineNumbers "customization\briefing.sqf";
 
