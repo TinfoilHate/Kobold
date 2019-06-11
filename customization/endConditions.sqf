@@ -8,7 +8,7 @@ if (_eastCasualty >= 80) then {BLUFOR_obj1Flag = true};
 
 if (time > 3600) then {BLUFOR_obj1Flag = true};
 
-if ( BLUFOR_obj1Flag ) exitWith {
+if ( BLUFOR_obj1Flag || REDFOR_obj1Flag || FW_TimeLimitReached ) exitWith {
 	[{
 		_bluObjValue1 = 20;
 		_redObjValue1 = 20;

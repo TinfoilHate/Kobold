@@ -5,10 +5,9 @@ if (isServer) then {
 	setViewDistance 2000;
 
 	FW_TimeLimit = ["TimeLimit",0] call BIS_fnc_getParamValue;
-	FW_TimeLimitMessage = "TIME LIMIT REACHED!";
 
 	[west, "WEST SIDE", "player"] call FNC_AddTeam;
-	[east, "EAST SIDE", "player"] call FNC_AddTeam;
+	[east, "EAST SIDE", "ai"] call FNC_AddTeam;
 
 	{
 		if (!isMultiplayer) then {
