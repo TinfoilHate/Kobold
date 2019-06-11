@@ -1,16 +1,18 @@
-#define package "EX_"
+//[this, "CAD_PLT_1IC"] call FNC_GearScript;
+
+#define package "CAD_"
 
 SET_GROUP(uniform)
-	["U_I_C_Soldier_Para_2_F","U_I_C_Soldier_Para_3_F","U_I_C_Soldier_Para_5_F","U_I_C_Soldier_Para_4_F","U_I_C_Soldier_Para_1_F","U_I_C_Soldier_Bandit_2_F","U_I_C_Soldier_Bandit_3_F","U_I_C_Soldier_Bandit_5_F","U_I_C_Soldier_Bandit_4_F"] call FNC_AddItemRandom;
-	["H_Bandanna_gry","H_Bandanna_blu","H_Bandanna_cbr","H_Bandanna_khk","H_Bandanna_sgg","H_Bandanna_sand","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Cap_blk","H_Cap_blu","H_Cap_grn","H_Cap_oli","H_Cap_red","H_Cap_surfer","H_Cap_tan","H_Hat_Safari_olive_F","H_Hat_Safari_sand_F","rhs_beanie_green","rhssaf_bandana_oakleaf"] call FNC_AddItemRandom;
+	["deth_can_uni_green"] call FNC_AddItem;
+	["deth_can_helmet_green"] call FNC_AddItem;	//ADD CLOSED EH FOR RADIO HATS
 END_GROUP;
 
 SET_GROUP(IFAK)
 	["ACE_fieldDressing", 2, "uniform"] call FNC_AddItem;
-	["ACE_elasticBandage", 4, "uniform"] call FNC_AddItem;
+	["ACE_elasticBandage", 2, "uniform"] call FNC_AddItem;
+	["ACE_quikclot", 2, "uniform"] call FNC_AddItem;
 	["ACE_packingBandage", 2, "uniform"] call FNC_AddItem;
 	["ACE_tourniquet", 2, "uniform"] call FNC_AddItem;
-	["ACE_morphine", 1, "uniform"] call FNC_AddItem;
 END_GROUP;
 
 SET_GROUP(items)
@@ -19,31 +21,382 @@ SET_GROUP(items)
 	["ItemWatch"] call FNC_AddItem;
 END_GROUP;
 
+SET_GROUP(medic)
+	["B_Kitbag_cbr"] call FNC_AddItem;
+	["ACE_surgicalKit",1,"backpack"] call FNC_AddItem;
+	["ACE_atropine",2,"backpack"] call FNC_AddItem;
+	["ACE_fieldDressing",10,"backpack"] call FNC_AddItem;
+	["ACE_elasticBandage",10,"backpack"] call FNC_AddItem;
+	["ACE_tourniquet",20,"backpack"] call FNC_AddItem;
+	["ACE_quikclot", 20, "backpack"] call FNC_AddItem;
+	["ACE_packingBandage",10,"backpack"] call FNC_AddItem;
+	["ACE_morphine",10,"backpack"] call FNC_AddItem;
+	["ACE_epinephrine",10,"backpack"] call FNC_AddItem;
+	["ACE_adenosine",2,"backpack"] call FNC_AddItem;
+	["ACE_salineIV_250",6,"backpack"] call FNC_AddItem;
+	["ACE_salineIV_500",4,"backpack"] call FNC_AddItem;
+END_GROUP;
 
-case (package + "LEADER"): {
-	["V_BandollierB_blk","V_BandollierB_cbr","V_BandollierB_rgr","V_BandollierB_khk","V_BandollierB_oli","V_TacVest_blk","V_TacVest_oli","V_TacChestrig_grn_F"] call FNC_AddItemRandom;
+SET_GROUP(radio)
+	["B_Kitbag_cbr"] call FNC_AddItem;
+	["ACRE_PRC117F",1,"backpack"] call FNC_AddItem;
+END_GROUP;
+
+SET_GROUP(ruck)
+	["B_AssaultPack_cbr"] call FNC_AddItem;
+END_GROUP;
+
+SET_GROUP(ruckL)
+	["B_Kitbag_cbr"] call FNC_AddItem;
+END_GROUP;
+
+SET_GROUP(ruckItems)
+	["skn_m04_gas_mask_blk",1,"backpack"] call FNC_AddItem;
+
+	_hour = date # 3;	//[year,month,day,hour,minute]
+	_lite = (date call BIS_fnc_sunriseSunsetTime) # 0;
+	_dark = (date call BIS_fnc_sunriseSunsetTime) # 1;
+
+	if (_hour < (_lite) || (_hour + 1) > _dark) then {
+		["rhsusf_ANPVS_14"] call FNC_AddItem;
+	} else {
+		["rhsusf_ANPVS_14",1,"backpack"] call FNC_AddItem;
+	};
+
+	["ACE_CableTie",2,"backpack"] call FNC_AddItem;
+	["FlareWhite_F",2,"backpack"] call FNC_AddItem;
+END_GROUP;
+
+
+case (package + "PLT_1IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
 
 	ADD_GROUP(uniform);
 	ADD_GROUP(IFAK);
 	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["ACRE_PRC152"] call FNC_AddItem;
+	["ACRE_PRC343"] call FNC_AddItem;
+
+	["rhsusf_bino_m24_ARD"] call FNC_AddItem;
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_red",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_green",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_yellow",1,"vest"] call FNC_AddItem;
+
+	["rhsusf_100Rnd_762x51",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",2,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",2,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiBlue",2,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiYellow",2,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "PLT_2IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["ACRE_PRC152"] call FNC_AddItem;
+	["ACRE_PRC343"] call FNC_AddItem;
+
+	["rhsusf_bino_m24_ARD"] call FNC_AddItem;
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_red",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_green",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_yellow",1,"vest"] call FNC_AddItem;
+
+	["rhs_mag_maaws_HEDP",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",1,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "PLT_MEDIC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(medic);
+	ADD_GROUP(ruckItems);
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+
+	[{CBA_missionTime > 1}, {_this setVariable ["ace_medical_medicClass",2,true]}, _unit] call CBA_fnc_waitUntilAndExecute;
+};
+
+case (package + "PLT_SIG"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(radio);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "SEC_1IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["ACRE_PRC152"] call FNC_AddItem;
+	["ACRE_PRC343"] call FNC_AddItem;
+
+	["rhsusf_bino_m24_ARD"] call FNC_AddItem;
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_red",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_green",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_yellow",1,"vest"] call FNC_AddItem;
+
+	["rhsusf_100Rnd_762x51",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",1,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "SEC_2IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
 
 	["ACRE_PRC343"] call FNC_AddItem;
 
-	["rhs_mag_f1","rhs_mag_m67","rhs_mag_rgd5"] call FNC_AddItemRandom;
+	["rhs_weap_m72a7"] call FNC_AddItem;
 
-	[_unit,_type,["rhs_weap_pp2000_folded","rhs_mag_9x19mm_7n21_44"],"vest",2] call FNC_wephelper;
-	
-	[_unit,_type,["rhs_weap_akm","rhs_weap_akms","rhs_acc_dtkakm","rhs_30Rnd_762x39mm_bakelite","rhs_30Rnd_762x39mm","rhs_weap_m70b1","rhs_weap_m70b1","rhs_30Rnd_762x39mm_bakelite","rhs_30Rnd_762x39mm","rhs_weap_ak74","rhs_weap_ak74_2","rhs_acc_dtk1983","rhs_30Rnd_545x39_7N6M_AK","rhs_30Rnd_545x39_7N6M_plum_AK","rhs_weap_pp2000","rhs_mag_9x19mm_7n21_44","rhs_weap_m3a1","rhsgref_30rnd_1143x23_M1911B_SMG","rhs_weap_kar98k","rhsgref_5Rnd_792x57_kar98k","rhs_weap_m1garand_sa43","rhsgref_8Rnd_762x63_M2B_M1rifle","rhs_weap_m38","rhsgref_5Rnd_762x54_m38","rhs_weap_MP44","rhsgref_30Rnd_792x33_SmE_StG","rhs_weap_savz58p","rhs_30Rnd_762x39mm_Savz58","rhs_weap_savz61","rhsgref_20rnd_765x17_vz61","rhs_acc_dtk1l","rhs_acc_2dpZenit","rhs_weap_akmn","rhs_acc_dtkakm","rhs_acc_1p29","hlc_20Rnd_762x51_B_M14","hlc_rifle_M14","hlc_20Rnd_762x51_B_fal","hlc_rifle_LAR","hlc_rifle_FAL5000","hlc_rifle_FAL5061","hlc_rifle_L1A1SLR","hlc_rifle_rpk762","hlc_75Rnd_762x39_m_rpk","hlc_45Rnd_762x39_m_rpk","hlc_rifle_rpk","rhs_weap_pm63","rhs_weap_Izh18","rhsgref_1Rnd_Slug","rhsgref_1Rnd_00Buck","rhs_weap_m92","JO_71rnd_762x25","jo_rf_ppsh","hlc_rifle_M1903A1","hlc_5rnd_3006_1903","hlc_rifle_SLRchopmod","hlc_rifle_g3a3","hlc_20rnd_762x51_b_G3","hlc_rifle_hk33a2","hlc_30rnd_556x45_b_HK33","hlc_rifle_hk53","hlc_rifle_g3a3v","rhs_weap_aks74","rhs_weap_aks74u"]] call FNC_wephelper;
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+
+	["rhsusf_200rnd_556x45_M855_mixed_box",1,"backpack"] call FNC_AddItem;
+	["rhsusf_100Rnd_762x51",1,"backpack"] call FNC_AddItem;
+	["ACE_Wirecutter",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",1,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
 };
 
-case (package + "MEMBER"): {
-	["V_BandollierB_blk","V_BandollierB_cbr","V_BandollierB_rgr","V_BandollierB_khk","V_BandollierB_oli","V_TacVest_blk","V_TacVest_oli","V_TacChestrig_grn_F"] call FNC_AddItemRandom;
+case (package + "SEC_GL"): {
+	["rhsusf_mbav_grenadier"] call FNC_AddItem;
 
 	ADD_GROUP(uniform);
 	ADD_GROUP(IFAK);
 	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
 
-	["rhs_mag_f1","rhs_mag_m67","rhs_mag_rgd5"] call FNC_AddItemRandom;
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
 
-	[_unit,_type,["rhs_weap_akm","rhs_weap_akms","rhs_acc_dtkakm","rhs_30Rnd_762x39mm_bakelite","rhs_30Rnd_762x39mm","rhs_weap_m70b1","rhs_weap_m70b1","rhs_30Rnd_762x39mm_bakelite","rhs_30Rnd_762x39mm","rhs_weap_ak74","rhs_weap_ak74_2","rhs_acc_dtk1983","rhs_30Rnd_545x39_7N6M_AK","rhs_30Rnd_545x39_7N6M_plum_AK","rhs_weap_pp2000","rhs_mag_9x19mm_7n21_44","rhs_weap_m3a1","rhsgref_30rnd_1143x23_M1911B_SMG","rhs_weap_kar98k","rhsgref_5Rnd_792x57_kar98k","rhs_weap_m1garand_sa43","rhsgref_8Rnd_762x63_M2B_M1rifle","rhs_weap_m38","rhsgref_5Rnd_762x54_m38","rhs_weap_MP44","rhsgref_30Rnd_792x33_SmE_StG","rhs_weap_savz58p","rhs_30Rnd_762x39mm_Savz58","rhs_weap_savz61","rhsgref_20rnd_765x17_vz61","rhs_acc_dtk1l","rhs_acc_2dpZenit","rhs_weap_akmn","rhs_acc_dtkakm","rhs_acc_1p29","hlc_20Rnd_762x51_B_M14","hlc_rifle_M14","hlc_20Rnd_762x51_B_fal","hlc_rifle_LAR","hlc_rifle_FAL5000","hlc_rifle_FAL5061","hlc_rifle_L1A1SLR","hlc_rifle_rpk762","hlc_75Rnd_762x39_m_rpk","hlc_45Rnd_762x39_m_rpk","hlc_rifle_rpk","rhs_weap_pm63","rhs_weap_Izh18","rhsgref_1Rnd_Slug","rhsgref_1Rnd_00Buck","rhs_weap_m92","JO_71rnd_762x25","jo_rf_ppsh","hlc_rifle_M1903A1","hlc_5rnd_3006_1903","hlc_rifle_SLRchopmod","hlc_rifle_g3a3","hlc_20rnd_762x51_b_G3","hlc_rifle_hk33a2","hlc_30rnd_556x45_b_HK33","hlc_rifle_hk53","hlc_rifle_g3a3v","rhs_weap_aks74","rhs_weap_aks74u"]] call FNC_wephelper;
+	["rhs_mag_M433_HEDP",6,"vest"] call FNC_AddItem;
+
+	["rhs_mag_M433_HEDP",18,"backpack"] call FNC_AddItem;
+	["rhs_mag_m713_Red",4,"backpack"] call FNC_AddItem;
+
+	["ACE_40mm_Flare_white",2,"backpack"] call FNC_AddItem;
+	["ACE_40mm_Flare_green",1,"backpack"] call FNC_AddItem;
+	["ACE_40mm_Flare_red",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_c7_m203","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "SEC_LMG"): {
+	["rhsusf_mbav_mg"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	[_unit,_type,["rhs_weap_m249","rhsusf_200rnd_556x45_M855_mixed_box"],"vest",2] call FNC_wephelper;
+	[_unit,_type,["rhsusf_200rnd_556x45_M855_mixed_box"],"backpack",2] call FNC_maghelper;
+};
+
+case (package + "SEC_R"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhsusf_200rnd_556x45_M855_mixed_box",1,"backpack"] call FNC_AddItem;
+	["rhs_mag_maaws_HEAT",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "WEP_1IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["ACRE_PRC152"] call FNC_AddItem;
+	["ACRE_PRC343"] call FNC_AddItem;
+
+	["rhsusf_bino_m24_ARD"] call FNC_AddItem;
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_red",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_green",1,"vest"] call FNC_AddItem;
+	["rhs_mag_m18_yellow",1,"vest"] call FNC_AddItem;
+
+	["rhsusf_100Rnd_762x51",1,"backpack"] call FNC_AddItem;
+	["rhs_mag_maaws_HEDP",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",1,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "WEP_2IC"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["ACRE_PRC343"] call FNC_AddItem;
+
+	["rhs_weap_m72a7"] call FNC_AddItem;
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_an_m8hc",1,"vest"] call FNC_AddItem;
+
+	["rhs_mag_maaws_HEAT",1,"backpack"] call FNC_AddItem;
+	["rhsusf_100Rnd_762x51",1,"backpack"] call FNC_AddItem;
+
+	["ACE_Chemlight_HiRed",1,"backpack"] call FNC_AddItem;
+	["ACE_Chemlight_HiGreen",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "WEP_MMG"): {
+	["rhsusf_mbav_mg"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	[_unit,_type,["rhs_weap_m240G","rhsusf_100Rnd_762x51"],"vest",2] call FNC_wephelper;
+};
+
+case (package + "WEP_MMG_AG"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruck);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhsusf_100Rnd_762x51",4,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "WEP_MAT"): {
+	["rhsusf_mbav_rifleman"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruckL);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_weap_maaws"] call FNC_AddItem;
+	["rhs_mag_maaws_HEAT",1,"backpack"] call FNC_AddItem;
+	["rhs_mag_maaws_HEDP",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_m16a2","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
+};
+
+case (package + "WEP_MAT_AG"): {
+	["rhsusf_mbav_grenadier"] call FNC_AddItem;
+
+	ADD_GROUP(uniform);
+	ADD_GROUP(IFAK);
+	ADD_GROUP(items);
+	ADD_GROUP(ruckL);
+	ADD_GROUP(ruckItems);
+
+	["rhs_mag_m67",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_M433_HEDP",4,"vest"] call FNC_AddItem;
+	["rhs_mag_m713_Red",2,"vest"] call FNC_AddItem;
+
+	["rhs_mag_maaws_HEAT",1,"backpack"] call FNC_AddItem;
+	["rhs_mag_maaws_HEDP",1,"backpack"] call FNC_AddItem;
+
+	[_unit,_type,["tin_weap_c7_m203","rhs_mag_30Rnd_556x45_M855_Stanag"],"vest",8] call FNC_wephelper;
 };
