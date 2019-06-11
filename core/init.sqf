@@ -93,5 +93,4 @@ if (!isDedicated) then {
 	//Various settings
 	player addRating 100000; //Makes sure ai doesnt turn hostile when teamkilling
 	player setVariable ["BIS_noCoreConversations", true]; //Disable scroll wheel conversations
-
 };
