@@ -3,13 +3,13 @@
 </p>
 <p align="center">
     <a href="https://github.com/TinfoilHate/Kobold/releases/latest">
-        <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Kobold Framework Version">
+        <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version">
     </a>
     <a href="https://github.com/TinfoilHate/Kobold/issues">
-        <img src="https://img.shields.io/github/issues/tinfoilhate/kobold" alt="Kobold Framework Issues">
+        <img src="https://img.shields.io/github/issues/tinfoilhate/kobold?label=Issues" alt="Issues">
     </a>
     <a href="https://discord.globalconflicts.net/">
-        <img src="https://img.shields.io/discord/635885194288562206" alt="Discord">
+        <img src="https://img.shields.io/discord/635885194288562206?label=Discord" alt="Discord">
     </a>
 </p>
 
