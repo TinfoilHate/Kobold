@@ -5,60 +5,53 @@
 // [this, "EMPTY"] call FNC_VehicleGearScript;
 
 _vehicle allowCrewInImmobile true;
+_vehicle disableTIEquipment kobld_optics_vehicleThermals;
+
+_nightGear = false;
+
+_hour = date # 3;	//[year,month,day,hour,minute]
+_lite = (date call BIS_fnc_sunriseSunsetTime) # 0;
+_dark = (date call BIS_fnc_sunriseSunsetTime) # 1;
+
+if (_hour < (_lite) || (_hour + 1) > _dark) then {
+	_nightGear = true;
+};
 
 switch (_type) do {
-
-	case "233014": {
+	case "M113": {
 		_vehicle call FNC_RemoveAllVehicleGear;
 
-		["rhs_weap_rpg26", 4] call FNC_AddItemVehicle;
+		["rhs_mag_20Rnd_556x45_M193_Stanag", 20] call FNC_AddItemVehicle;
+		["rhs_mag_30Rnd_556x45_M193_Stanag", 30] call FNC_AddItemVehicle;
+		["rhs_mag_30Rnd_556x45_M196_Stanag_Tracer_Red", 5] call FNC_AddItemVehicle;
 
-		["rhsgref_30rnd_556x45_m21", 50] call FNC_AddItemVehicle;
-		["rhs_100Rnd_762x54mmR", 8] call FNC_AddItemVehicle;
-		["rhsgref_10Rnd_792x57_m76", 10] call FNC_AddItemVehicle;
+		["rhsusf_100Rnd_762x51", 8] call FNC_AddItemVehicle;
 
-		[_vehicle,"rhs_medic_bag",1] call FNC_assignMedicBagCargo;
+		["rhs_mag_M433_HEDP", 20] call FNC_AddItemVehicle;
+		["rhs_mag_m713_Red", 4] call FNC_AddItemVehicle;
+		["rhs_mag_m714_White", 4] call FNC_AddItemVehicle;
+		["rhs_mag_m715_Green", 4] call FNC_AddItemVehicle;
+
+		["ace_dragon_super", 1] call FNC_AddItemVehicle;
+		["rhs_weap_m72a7", 5] call FNC_AddItemVehicle;
+
+		["ToolKit", 1] call FNC_AddItemVehicle;
+
+		if (_nightGear) then {
+			["FlareWhite_F",12] call FNC_AddItemVehicle;
+		};
 	};
 
-	case "233011": {
-		_vehicle call FNC_RemoveAllVehicleGear;
+	case "STATIC": {
+		_vehicle enableWeaponDisassembly false;
 
-		["rhs_weap_rpg26", 4] call FNC_AddItemVehicle;
+		_vehicle setVariable ["ace_dragging_canDrag", false,true];
+		_vehicle setVariable ["ace_dragging_canCarry", false,true];
 
-		["rhsgref_30rnd_556x45_m21", 50] call FNC_AddItemVehicle;
-		["rhs_100Rnd_762x54mmR", 8] call FNC_AddItemVehicle;
-		["rhsgref_10Rnd_792x57_m76", 10] call FNC_AddItemVehicle;
-
-		["rhs_VOG25", 24] call FNC_AddItemVehicle;
-		["rhs_VG40OP_white", 8] call FNC_AddItemVehicle;
-		["rhs_VG40OP_green", 2] call FNC_AddItemVehicle;
-		["rhs_VG40OP_red", 2] call FNC_AddItemVehicle;
-		["rhs_GDM40", 2] call FNC_AddItemVehicle;
-
-		[_vehicle,"rhs_medic_bag",1] call FNC_assignMedicBagCargo;
-
-		[{
-			(_this select 0) addBackpackCargoGlobal [(_this select 1),(_this select 2)];
-			{
-				if (typeOf _x == (_this select 1)) then {
-					clearBackpackCargoGlobal _x;
-					clearItemCargoGlobal _x;
-					clearMagazineCargoGlobal _x;
-					clearWeaponCargoGlobal _x;
-
-					_x addItemCargoGlobal ["rhs_rpg7_PG7VL_mag",3];
-				};
-			} forEach everyBackpack (_this select 0);
-		}, [_vehicle,"rhs_rpg_empty",1], 1] call CBA_fnc_waitAndExecute;
+		[_vehicle, -1] call ace_cargo_fnc_setSize;
 	};
 
 	case "EMPTY": {
 		_vehicle call FNC_RemoveAllVehicleGear;
-	};
-
-	case "EMPTY_MED": {
-		_vehicle call FNC_RemoveAllVehicleGear;
-
-		[_vehicle,"rhs_medic_bag",1] call FNC_assignMedicBagCargo;
 	};
 };

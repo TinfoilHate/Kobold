@@ -19,16 +19,15 @@ switch (side player) do {
 
 	case west: {
 		_startTextArray = [
-			["TITLE", "KOBOLD"],
-			["DTG","B"]
+			["TITLE", "MISSION TITLE"],
+			["DTG","A"]
 		];
-
 	}; //End of west case
 
 	case east: {
 
 		_startTextArray = [
-			["TITLE", "KOBOLD"],
+			["TITLE", "MISSION TITLE"],
 			["DTG","B"]
 		];
 
@@ -37,7 +36,7 @@ switch (side player) do {
 	case independent: {
 
 		_startTextArray = [
-			["TITLE", "KOBOLD"],
+			["TITLE", "MISSION TITLE"],
 			["DTG","B"]
 		];
 
@@ -45,7 +44,7 @@ switch (side player) do {
 
 	default {
 		_startTextArray = [
-			["TITLE", "KOBOLD"],
+			["TITLE", "MISSION TITLE"],
 			["DTG","B"]
 		];
 	};

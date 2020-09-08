@@ -172,7 +172,7 @@ if(!isDedicated && hasInterface) then {
 		
 		waitUntil {[] call acre_api_fnc_isInitialized};
 		
-		private _channels = player getVariable ["FW_Channels", []];
+		private _channels = player getVariable ["FW_Channels", []]; //[_radio, _channel, _spatial]
 
 		{
 			_x params [
@@ -180,13 +180,14 @@ if(!isDedicated && hasInterface) then {
 				["_channel", 1],
 				["_spatial", "CENTER"]
 			];
-			private _radioID = [_radio] call acre_api_fnc_getRadioByType;
-			if (!isNil "_radioID") then {
-				[_radioID, _channel] call acre_api_fnc_setRadioChannel;
-				[_radioID, _spatial] call acre_api_fnc_setRadioSpatial;
+			
+			if ([player, _radio] call acre_api_fnc_hasKindOfRadio) then {
+				private _radioID = [_radio] call acre_api_fnc_getRadioByType;
+				if (!isNil "_radioID") then {
+					[_radioID, _channel] call acre_api_fnc_setRadioChannel;
+					[_radioID, _spatial] call acre_api_fnc_setRadioSpatial;
+				};
 			};
 		} foreach _channels;
-		
 	};
-	
 };

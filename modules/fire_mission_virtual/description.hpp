@@ -1,4 +1,4 @@
-class tinfoilHate {
+class firemission_virtual {
 	tag = "tin";
 
 	class virtualFiremission {

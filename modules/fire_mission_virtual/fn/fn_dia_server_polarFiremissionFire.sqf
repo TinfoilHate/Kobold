@@ -85,13 +85,22 @@ _this spawn {
 	{
 		_x params ["_var","_name","_side"];
 
-		if (_obs == _var) then {
-			_obsName = _name
+		switch (typeName _var) do {
+			case "GROUP": {
+				if (group _obs == _var) then {
+					_obsName = _name;
+				};
+			};
+			default {
+				if (_obs == _var) then {
+					_obsName = _name
+				};				
+			};
 		};
 	} forEach tin_var_artyObservers;
 
 	if (_obsName == "") then {
-		_obsName = toUpper(groupId (group _obs));
+		_obsName = "OBSERVER";
 	};
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,14 +271,14 @@ _this spawn {
 			_fireTarget = [_target, _disp] call CBA_fnc_randPos;
 
 			_random = random 1;
-			if (_random >= 0.25 && _random < 0.5) then {
-				_fireTarget = [_target, (_disp * .65)] call CBA_fnc_randPos;
-			};
-			if (_random >= 0.5 && _random < 0.75) then {
+			if (_random >= 0.2 && _random < 0.5) then {
 				_fireTarget = [_target, (_disp * .5)] call CBA_fnc_randPos;
 			};
-			if (_random >= 0.75) then {
+			if (_random >= 0.5 && _random < 0.75) then {
 				_fireTarget = [_target, (_disp * .25)] call CBA_fnc_randPos;
+			};
+			if (_random >= 0.75) then {
+				_fireTarget = [_target, (_disp * .125)] call CBA_fnc_randPos;
 			};
 
 			_newDelayTime = 0;

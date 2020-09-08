@@ -10,7 +10,7 @@ FW_enable_scramble = true;
 /*
  * FNC_SetScramble
  * Change unit's scramble so it matches set faction
- * 
+ *
  * Example:
  * [this, east] call FNC_SetScramble;
  * Will set unit's radio to east's scramble setting.
@@ -27,7 +27,7 @@ FW_enable_scramble = true;
  *
  * Examples:
  * [this, "ACRE_PRC343", 2] call FNC_SetRadio;
- * [this, "ACRE_PRC117F", 7, "LEFT"] call FNC_SetRadio;
+ * [this, "ACRE_PRC148", 1, "RIGHT"] call FNC_SetRadio; [this, "ACRE_PRC343", 2, "LEFT"] call FNC_SetRadio;
 */
 
 /////////////
@@ -41,33 +41,33 @@ FW_enable_channel_names = true;
 
 FW_ChannelNames = [
 	[//WEST - USE SIDE SETTINGS ONLY IF SCRAMBLE IS ON
-		[1, "label", "PLTNET 1"],
-		[2, "label", "PLTNET 2"],
-		[3, "label", "PLTNET 3"],
+		[1, "label", "1PLT"],
+		[2, "label", "2PLT"],
+		[3, "label", "3PLT"],
 		[4, "label", "COY"],
 		[5, "label", "CAS"],
 		[6, "label", "FIRES"]
 	],
 	[//EAST
-		[1, "label", "PLTNET 1"],
-		[2, "label", "PLTNET 2"],
-		[3, "label", "PLTNET 3"],
+		[1, "label", "1PLT"],
+		[2, "label", "2PLT"],
+		[3, "label", "3PLT"],
 		[4, "label", "COY"],
 		[5, "label", "CAS"],
 		[6, "label", "FIRES"]
 	],
 	[//INDEPENDENT
-		[1, "label", "PLTNET 1"],
-		[2, "label", "PLTNET 2"],
-		[3, "label", "PLTNET 3"],
+		[1, "label", "1PLT"],
+		[2, "label", "2PLT"],
+		[3, "label", "3PLT"],
 		[4, "label", "COY"],
 		[5, "label", "CAS"],
 		[6, "label", "FIRES"]
 	],
 	[//DEFAULT - USE THIS IF SCRAMBLE IS OFF
-		[1, "label", "PLTNET 1"],
-		[2, "label", "PLTNET 2"],
-		[3, "label", "PLTNET 3"],
+		[1, "label", "1PLT"],
+		[2, "label", "2PLT"],
+		[3, "label", "3PLT"],
 		[4, "label", "COY"],
 		[5, "label", "CAS"],
 		[6, "label", "FIRES"]
@@ -95,15 +95,19 @@ FW_enable_babel = true;
 
 FW_all_languages = [
 	["en", "English"],
+	["fr", "French"],
+	["de", "German"],
+	["ua", "Ukranian"],
+	["cz", "Czech"],
 	["ru", "Russian"]
 ];
 
 //define languages for different sides
 FW_languages_babel = [
-	["en"],//WEST
-	["ru"],//EAST
-	["en"],//INDEPENDENT
-	["en"]//DEFAULT/CIVILIAN
+	["en"],			//WEST
+	["ru"],			//EAST
+	["cz"],			//INDEPENDENT
+	["ua"]			//DEFAULT/CIVILIAN
 ];
 
 ///////////////////////
@@ -221,4 +225,3 @@ FW_ORRList = [
 */
 
 FW_Acre_Volume_Value = 0;
-
